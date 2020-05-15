@@ -43,7 +43,7 @@ bool Medecin::supprimerPatient(const std::string& numeroAssuranceMaladie)
 	{
 		if(patientsAssocies_[i].get()->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
-			patientsAssocies_[i] = std::move(patientsAssocies_[nbPatientsAssocies_ - 1]);
+			patientsAssocies_[i] = std::move(patientsAssocies_[nbPatientsAssocies_ - 1]);  // move deplace aussi chaque element dans le tableau car il s'agit de smarts pointers(ca je ne savais pas)
 			patientsAssocies_[nbPatientsAssocies_ - 1].reset();
 			nbPatientsAssocies_-=1;
 			return true;
