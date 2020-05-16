@@ -17,14 +17,14 @@ public:
 	bool chargerDepuisFichier(const std::string& nomFichiers);
     bool supprimerMedecin(const std::string& numeroLicence);
 
-    void afficher(std::ostream& stream);
+    void afficher(std::ostream& stream) const;
 
-    size_t getNbMedecins();
-    size_t getCapaciteMedecins();
+    size_t getNbMedecins() const;
+    size_t getCapaciteMedecins() const ;
 
 private:
     bool lireLigneMedecin(const std::string& ligne);
-    int trouverIndexMedecin(const std::string& numeroLicence);
+    int trouverIndexMedecin(const std::string& numeroLicence) const;
 
     size_t nbMedecins_;
     size_t capaciteMedecins_;

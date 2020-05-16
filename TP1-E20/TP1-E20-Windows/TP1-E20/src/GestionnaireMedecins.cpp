@@ -1,6 +1,15 @@
 // TODO: Faire l'entête de fichier
+/* ////////////////////////////////////////////////////////////////
+/	TD1 : fichier GestionnaireMedecins.cpp                        /
+/	travail fait par Bryan junior Ngatshou : 1956611              /
+/					 Félix Moreau		   : 1846157              /
+/                                                                 /
+/	Date de remise : 17 mai 2020 à 23h55                          /
+/   Description: Implementation de la classe GestionnairesMedecins/
+*//////////////////////////////////////////////////////////////////
 
-// TODO: Inclure la définition de la classe appropriée
+//   Nous pensons ne pas avoir besoin de destructeurs car les smarts pointeurs gerent leur  propre memoire
+
 #include <fstream>
 #include <iomanip>
 #include "typesafe_enum.h"
@@ -10,8 +19,8 @@
 constexpr size_t CAPACITE_MEDECINS_INITIALE = 2;
 constexpr int MEDECIN_INEXSISTANT = -1;
 
-// TODO : Constructeur par défaut en utilisant la liste d'initialisation
-// Utilisez CAPACITE_MEDECINS_INITIALE pour la taille initiale de medecins_ (tableau de taille dynamique)
+//! Constructeur de la GestionnaireMedecins
+//! Aucun parametre            
 GestionnaireMedecins:: GestionnaireMedecins():nbMedecins_(0),capaciteMedecins_(CAPACITE_MEDECINS_INITIALE),
 medecins_(std::make_unique<std::shared_ptr<Medecin>[]> (CAPACITE_MEDECINS_INITIALE)){}
 
@@ -23,34 +32,29 @@ medecins_(std::make_unique<std::shared_ptr<Medecin>[]> (CAPACITE_MEDECINS_INITIA
 void GestionnaireMedecins::ajouterMedecin(std::shared_ptr<Medecin> medecin)
 {
 	constexpr unsigned int AUGMENTATION_NOMBRE_MEDECINS = 2;
-	// TODO
-	// Verifier si assez de mémoire est allouée
-	// Si pas assez de mémoire, doubler la taille du tableau (AUGMENTATION_NOMBRE_MEDECINS)
-	// Ajouter le medecin au tableau
-	// Utiliser std::unique_ptr<std::shared_ptr<Medecin>[]> ainsi que std::move pour transférer le ownership
-	// du tableau temporaire vers le tableau membre medecins_;
+	
 	if (capaciteMedecins_ < (nbMedecins_ + 1))
 	{
 		capaciteMedecins_ *= AUGMENTATION_NOMBRE_MEDECINS;
 
-		auto test = std::make_unique<std::shared_ptr<Medecin>[]>(capaciteMedecins_);
+		auto tableauTest = std::make_unique<std::shared_ptr<Medecin>[]>(capaciteMedecins_);
 		// copier les anciens medecins avant de faire le move
-		for (size_t i = 0; i < capaciteMedecins_ / AUGMENTATION_NOMBRE_MEDECINS; i++)
+		for (size_t i = 0; i < capaciteMedecins_ / AUGMENTATION_NOMBRE_MEDECINS; i++) // puisqu on a double la capacite 
 		{
-			test[i] = medecins_[i];
+			tableauTest[i] = medecins_[i];
 		}
-		medecins_ = std::move(test);
+		medecins_ = std::move(tableauTest);
 	}
-	//auto test2 = std::make_shared<Medecin>(medecin);
-	medecins_[nbMedecins_] = medecin;
-	nbMedecins_++;
+	medecins_[nbMedecins_] = medecin; //on ajoute un medecin;
+	nbMedecins_++;                     // on incremente
 
 }
 	
 
-// TODO : compléter chercherMedecin(const std::string& numeroLicence)
-// Chercher un medecin dans la liste medecins par son numéro de licence
-// Retourner le pointeur vers le medecin si trouvé, sinon retourner nullptr
+//! Methode qui permet de chercher un medecin grace a son numero de license
+//! \param string numero de license du medecin         
+//! / return un std::shared_ptr<Medecin> qui represente un medecin    
+//! / return un nullptr si pas trouve
 
 std::shared_ptr<Medecin> GestionnaireMedecins::chercherMedecin(const std::string& numeroLicence)
 {
@@ -84,7 +88,10 @@ bool GestionnaireMedecins::chargerDepuisFichier(const std::string& nomFichier)
 	}
 }
 
-// TODO : compléter 
+//! Methode qui permet de suprrimer un medecin grace a son numero de license
+//! \param string numero de license du medecin         
+//! / return un booleen qui nous donne l etat actif ou non du medecin   
+
 bool GestionnaireMedecins::supprimerMedecin(const std::string& numeroLicence)
 {
 
@@ -99,12 +106,10 @@ bool GestionnaireMedecins::supprimerMedecin(const std::string& numeroLicence)
 	
 }
 
-// Chercher l'index du medecin dans le tableau medecins_ en faisant appel à la fonction trouverIndexMedecin
-// Rendez le medecin inactif. Attention : il ne fait pas retirer le medecin du tableau medecins_
-// Retourner true si le medein est trouvé et rendu inactif, sinon retourné false
-
-// TODO : afficher(std::ostream& stream)
-void GestionnaireMedecins::afficher(std::ostream& stream)
+//! Methode qui permet d afficher les medecins du tableau de medecin
+//! \param ostream stream         
+ 
+void GestionnaireMedecins::afficher(std::ostream& stream) const
 {
 	for (size_t i = 0; i < nbMedecins_; i++) {
 		medecins_[i].get()->afficher(stream);
@@ -112,20 +117,23 @@ void GestionnaireMedecins::afficher(std::ostream& stream)
 	stream << '\n';
 }
 
-// Afficher tous les medecins contenus dans le tableau medecins_ en utilisant le stream
 
-// TODO : getNbMedecins() : retourner nbMedecins_
-size_t GestionnaireMedecins::getNbMedecins()
+
+//! Methode qui  retourne le  nb de Medecins
+size_t GestionnaireMedecins::getNbMedecins() const
 {
 	return nbMedecins_;
 }
-// TODO : getCapaciteMedecins() : retourner capaciteMedecins_
-size_t GestionnaireMedecins:: getCapaciteMedecins()
+//! Methode qui  retourne la capacite de Medecins
+size_t GestionnaireMedecins:: getCapaciteMedecins() const
 {
 	return capaciteMedecins_;
 }
+
+
 //! Méthode qui lit les attributs d'un medecin
 //! \param ligne  Le string qui contient les attributs
+//! /retourne un booleen qui nous dit si la lecture fut ou non un succes
 bool GestionnaireMedecins::lireLigneMedecin(const std::string& ligne)
 {
 	std::istringstream stream(ligne);
@@ -135,9 +143,9 @@ bool GestionnaireMedecins::lireLigneMedecin(const std::string& ligne)
 	if (nbMedecins_ < capaciteMedecins_)
 	{
 		stream >> std::quoted(nomMedecin) >> std::quoted(numeroLicence) >> indexSpecialite;
-		//Medecin medecin = Medecin(nomMedecin, numeroLicence, to_enum<Medecin::Specialite, int>(indexSpecialite));
-		auto test = std::make_shared<Medecin>(Medecin(nomMedecin, numeroLicence, to_enum<Medecin::Specialite, int>(indexSpecialite)));
-		ajouterMedecin(test);
+		//Medecin medecin = Medecin(nomMedecin, numeroLicence, to_enum<Medecin::Specialite, int>(indexSpecialite));          // nous ne comprenons pas pk cette forme n a pas fonctionne
+		auto medecinTest = std::make_shared<Medecin>(Medecin(nomMedecin, numeroLicence, to_enum<Medecin::Specialite, int>(indexSpecialite)));
+		ajouterMedecin(medecinTest);
 		return true;
 	}
 
@@ -147,9 +155,10 @@ bool GestionnaireMedecins::lireLigneMedecin(const std::string& ligne)
 	
 }
 
-// TODO : 
-
-int GestionnaireMedecins::trouverIndexMedecin(const std::string& numeroLicence)
+//! Methode qui trouve un medecin 
+//! \param numero de licence du medecin
+//! /retourne un int qui represente la position du medecin dans le tableau
+int GestionnaireMedecins::trouverIndexMedecin(const std::string& numeroLicence) const
 {
 	for (size_t i = 0; i < nbMedecins_; i++)
 	{
@@ -159,6 +168,5 @@ int GestionnaireMedecins::trouverIndexMedecin(const std::string& numeroLicence)
 
 }
 
-// Retourner l'indexe du medecin comportant le numéro de licence envoyé en paramètre
-// Si le medecin n'existe pas, retourner -1 (MEDECIN_INEXSISTANT)
+
 

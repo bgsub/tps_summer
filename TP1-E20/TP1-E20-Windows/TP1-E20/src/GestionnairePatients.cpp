@@ -1,17 +1,27 @@
 ﻿// TODO: Faire l'entête de fichier
+/* ////////////////////////////////////////////////////////////////
+/	TD1 : fichier GestionnairePatient.cpp                         /
+/	travail fait par Bryan junior Ngatshou : 1956611              /
+/					 Félix Moreau		   : 1846157              /
+/                                                                 /
+/	Date de remise : 17 mai 2020 à 23h55                          /
+/   Description: Implementation de la classe GestionnairePatients /
+*//////////////////////////////////////////////////////////////////
 
-// TODO: Inclure la définition de la classe appropriée
+//   Nous pensons ne pas avoir besoin de destructeurs car les smarts pointeurs gerent leur  propre memoire
 
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include "GestionnairePatients.h"
-// TODO : compléter le Constructeur par defaut de la classe GestionnairePatients en utilisant une liste d'initialisation
+//! Constructeur de la GestionnairePatient
+//! Aucun parametre 
 GestionnairePatients::GestionnairePatients() : nbPatients_(0)
 {}
 
-// TODO ajouterPatient(const Patient& patient)
+//! Méthode qui ajoute un patient à la liste des patients
+//! \param Patient patient le  patient à ajouter
 bool GestionnairePatients::ajouterPatient(const Patient& patient)
 {
 	if (nbPatients_ < NB_PATIENT_MAX)
@@ -24,24 +34,22 @@ bool GestionnairePatients::ajouterPatient(const Patient& patient)
 }
 
 
-// TODO 
-// Chercher un patient dans la liste patients_ par son numéro d'assurance maladie
-// Retourner le pointeur vers le patient si trouvé, sinon retourner nullptr
+//! Methode qui permet de chercher un patient grace a son numero d' assurance maladie
+//! \param string numero d assurance maladie du patient         
+//! / return un std::shared_ptr<Patient> qui represente un patient   
+//! / return un nullptr si pas trouve
 std::shared_ptr<Patient> GestionnairePatients::chercherPatient(const std::string& numeroAssuranceMaladie)
 
 {
-	
 	for (size_t i = 0; i < nbPatients_; i++)
 	{
 		if (patients_[i].getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
-			auto test = std::make_shared<Patient>(patients_[i]);
-			return test;
+			auto patientTest = std::make_shared<Patient>(patients_[i]);
+			return patientTest;
 		}
 		else return nullptr;
 	}
-	
-
 }
 
 
@@ -53,7 +61,6 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 	std::ifstream fichier(nomFichier);
 	if (fichier)
 	{
-		// TODO : Envoyer chaque ligne à lireLignePatient()
 		std::string ligne;
 		nbPatients_ = 0;
 		while (std::getline(fichier, ligne))
@@ -69,8 +76,9 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 	return false;
 }
 
-// TODO 
-void GestionnairePatients::afficher(std::ostream& stream)
+//! Methode qui permet d afficher les patients du tableau de patients
+//! \param ostream stream    
+void GestionnairePatients::afficher(std::ostream& stream) const
 {
 	for (size_t i = 0; i < nbPatients_; i++)
 	{
@@ -78,26 +86,24 @@ void GestionnairePatients::afficher(std::ostream& stream)
 		stream << '\n';
 	}
 }
-// Afficher tous les patients contenus dans le tableau patients_ en utilisant le stream
 
-// TODO 
-size_t GestionnairePatients::getNbPatients() { return nbPatients_; }
+
+//! Methode qui retourne le nbre de patients
+size_t GestionnairePatients::getNbPatients() const { return nbPatients_; }
 
 //! Méthode qui lit les attributs d'un patient
 //! \param ligne  Le string qui contient les attributs
+//! /bool si la patien a ete ajoute 
 bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 {
 	std::istringstream stream(ligne);
 	std::string nomPatient;
 	std::string numeroAssuranceMaladie;
 	std::string anneeDeNaissance;
-	// TODO
-	// Utiliser l'opérateur d'extraction (>>) depuis le stream
-	// Pour extraire tout ce qui se trouve entre "" dans un stream,
-	// il faut faire stream >> std::quoted(variable)
+
 	stream >> std::quoted(nomPatient) >> std::quoted(anneeDeNaissance) >> std::quoted(numeroAssuranceMaladie);
 	Patient test(nomPatient, anneeDeNaissance, numeroAssuranceMaladie);
-	// retourner true si l'opération a réussi, sinon false
+	
 	return ajouterPatient(test);
-	//return false;
+	
 }

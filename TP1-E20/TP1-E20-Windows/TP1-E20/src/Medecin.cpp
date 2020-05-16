@@ -1,6 +1,17 @@
 // TODO: Faire l'entête de fichier
+/* ////////////////////////////////////////////////////////////////
+/	TD1 : fichier Medecin.cpp                                     /
+/	travail fait par Bryan junior Ngatshou : 1956611              /
+/					 Félix Moreau		   : 1846157              /
+/                                                                 /
+/	Date de remise : 17 mai 2020 à 23h55                          /
+/   Description: Implementation de la classe Medecin              /
+*//////////////////////////////////////////////////////////////////
+
 
 // TODO: Inclure la définition de la classe appropriée
+
+//   Nous pensons ne pas avoir besoin de destructeurs car les smarts pointeurs gerent leur  propre memoire ( y sont smarts ahahah... ok , j arrete)
 
 #include <iostream>
 #include "typesafe_enum.h"
@@ -8,14 +19,18 @@
 
 constexpr std::size_t CAPACITE_PATIENTS_INITIALE = 2;
 
-// TODO compléter le Constructeur par paramètre  de la classe Medecin avec une liste d'initialisation
-// Utilisez CAPACIT_PATIENTS_INITIALE pour la taille initiale de patientsAssocies_ (tableau de taille dynamique)
+//! Constructeur de la classe Medecin
+//! \param nom du medecin         
+//! \param numero du medecin     
+//! \param specialite du medecin     
 Medecin::Medecin(const std::string& nom, const std::string& numeroLicence, Specialite specialite) : nom_(nom), numeroLicence_(numeroLicence), specialite_(specialite), estActif_(true),
 nbPatientsAssocies_(0),capacitePatientsAssocies_(CAPACITE_PATIENTS_INITIALE),
 patientsAssocies_(std:: make_unique<std::shared_ptr<Patient>[]>(CAPACITE_PATIENTS_INITIALE)) {}
 
-//! Méthode qui ajoute un patien à liste des patients associes au medecin.
+//! Méthode qui ajoute un patient à liste des patients associes au medecin.
 //! \param Patient patient à ajouter
+//! \aucun parametre de retour 
+
 void Medecin::ajouterPatient(Patient patient)
 {
 	static constexpr unsigned int AUGMENTATION_NOMBRE_PATIENTS = 2;
@@ -34,8 +49,10 @@ void Medecin::ajouterPatient(Patient patient)
 	nbPatientsAssocies_++; //maj du nbre de patients
 
 }
+//! Méthode qui supprime un patient à liste des patients associes au medecin.
+//! \param string numeroAssuranceMaladie du patient a ajouter
+//! \aucun parametre de retour 
 
-// TODO
 bool Medecin::supprimerPatient(const std::string& numeroAssuranceMaladie)
 {
 	
@@ -43,7 +60,7 @@ bool Medecin::supprimerPatient(const std::string& numeroAssuranceMaladie)
 	{
 		if(patientsAssocies_[i].get()->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
-			patientsAssocies_[i] = std::move(patientsAssocies_[nbPatientsAssocies_ - 1]);  // move deplace aussi chaque element dans le tableau car il s'agit de smarts pointers(ca je ne savais pas)
+			patientsAssocies_[i] = std::move(patientsAssocies_[nbPatientsAssocies_ - 1]);  // move deplace aussi chaque element dans le tableau car il s'agit de smarts pointers(wow)
 			patientsAssocies_[nbPatientsAssocies_ - 1].reset();
 			nbPatientsAssocies_-=1;
 			return true;
@@ -82,70 +99,70 @@ void Medecin::afficher(std::ostream& stream) const
 	for (size_t i = 0; i < nbPatientsAssocies_; i++)
 	{
 		stream << "\t\t";
-		patientsAssocies_[i].get()->afficher(stream);
+		patientsAssocies_[i].get()->afficher(stream);     // fonction afficher de chaque patient grace au stream 
 		stream << '\n';
 	}
     stream << '\n';
 }
 
-// TODO 
+//! Méthode qui retourne le nom du medecin
 const std::string& Medecin::getNom() const
 {
 	return  nom_;
 }
 
-// TODO 
+//! Méthode qui retourne le numero de licence du medecin
 const std::string& Medecin::getNumeroLicence() const
 {
 	return numeroLicence_;
 }
 
-// TODO
+//! Méthode qui retourne si le medecin est actif ou pas 
 bool Medecin::getEstActif() const
 {
 	return estActif_;
 }
 
 
-// TODO
+//! Méthode qui retourne  la capacite du tableau de patients associes
 const size_t Medecin::getCapacitePatientAssocies() const
 {
 	return capacitePatientsAssocies_;
  }
 
-// TODO getNombrePatientsAssocies() : retourner le nombre de patients dans le tableau patientsAssocies_
+//! Méthode qui retournele nombre de patients associes au medecin
 const size_t Medecin:: getNombrePatientsAssocies () const
 {
 	return nbPatientsAssocies_;
 }
-// TODO getPatientsAssocies() : retourner le tableau des patients associés au médecin (attribut patientsAssocies_)
+//! Méthode qui retourne le tableau de patients associes 
 std::unique_ptr<std::shared_ptr<Patient>[]> Medecin::getPatientsAssocies() 
 {
 	return std::move(patientsAssocies_);
 }
+//! Méthode qui retourne la specialite 
 const Medecin :: Specialite Medecin::getSpecialite() const
 {
 	return specialite_;
 }
-// TODO 
+//! Méthode qui set le nom 
 void Medecin :: setNom(const std::string& nom)
 {
 	nom_ = nom;
 }
-// TODO 
+//! Méthode qui set le numero de licence
 void Medecin::setNumeroLicence(const std::string& numeroLicence)
 {
 	numeroLicence_ = numeroLicence;
 }
 
-// TODO
+//! Méthode qui set si le medecin est actif ou pas
 void Medecin::setEstActif(bool estActif)
 {
 	estActif_ = estActif;
 }
 
-
-// TODO
+//! Méthode qui set la specialite du medecin
 void Medecin::setSpecialite(Specialite specialite)
 {
 	specialite_ = specialite;

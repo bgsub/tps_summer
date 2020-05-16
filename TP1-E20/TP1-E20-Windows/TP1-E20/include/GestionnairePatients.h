@@ -13,9 +13,9 @@ public:
 	bool ajouterPatient(const Patient& patient);
     std::shared_ptr<Patient> chercherPatient(const std::string& numeroAssuranceMaladie);
     bool chargerDepuisFichier(const std::string& nomFichier);
-    void afficher(std::ostream& stream);
+    void afficher(std::ostream& stream) const;
 
-    size_t getNbPatients();
+    size_t getNbPatients() const ;
 
     static constexpr size_t NB_PATIENT_MAX = 16;
 
