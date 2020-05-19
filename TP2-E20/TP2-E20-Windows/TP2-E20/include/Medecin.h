@@ -12,6 +12,7 @@ class Medecin
 public:
     enum class Specialite
     {
+  
         first_ = -1,
         Generaliste,
         Cardiologue,
@@ -22,35 +23,31 @@ public:
         Autre,
         last_
     };
-
+    
     Medecin() = default;
     Medecin(const std::string& nom, const std::string& numeroLicence, Specialite specialite);
 
-    void ajouterPatient(Patient patient);
-    bool supprimerPatient(const std::string& numeroAssuranceMaladie);
-    void afficher(std::ostream& stream) const;
-
     // TODO : signature des opérateurs à surcharger.
-   friend std::ostream operator<<(std::ostream& out, const Medecin& medecin);
+    friend std::ostream& operator<< (std::ostream& out, const Medecin& patient);
     // opérateur+= qui remplace ajouterPatient 
-   bool operator+=(Patient patient);
+    bool operator+=(Patient& patient);
     // opérateur-= qui remplace supprimerPatient
-   bool operator-=(Patient patient);
+    bool operator-=(std::string numAssMal);
     // opérateur== qui compare un string avec le numéro licence du médecin premier sens 
-   bool operator==(std::string& nom);
+    bool operator==(std::string numLicence);
 
-       // opérateur== qui compare un string avec le numéro licence du médecin deuxieme sens 
-   friend bool operator==(std::string& nom, const Medecin medecin);
+    // opérateur== qui compare un string avec le numéro licence du médecin deuxieme sens 
+    friend bool operator==(std::string numLicence, const Medecin medecin);
     // (par exemple, pour "158795" == medecin)
 
-
+    
     const std::string& getNom() const;
     const std::string& getNumeroLicence() const;
     bool getEstActif() const;
     const Specialite getSpecialite() const;
     const size_t getCapacitePatientAssocies() const;
     const size_t getNombrePatientsAssocies() const;
-    std::unique_ptr<std::shared_ptr<Patient>[]> getPatientsAssocies();
+    std::vector<std::shared_ptr<Patient>> getPatientsAssocies();
 
     void setNom(const std::string& nom);
     void setNumeroLicence(const std::string& numeroLicence);
@@ -68,7 +65,7 @@ private:
     std::vector<std::shared_ptr<Patient>> patientsAssocies_;                               // pas sur
     size_t nbPatientsAssocies_;
     size_t capacitePatientsAssocies_;
-  
+
 };
 
 #endif // MEDECIN_H

@@ -121,7 +121,7 @@ void GestionnaireMedecins::afficher(std::ostream& stream) const
 {
 	for (size_t i = 0; i < nbMedecins_; i++)
 	{
-		medecins_[i]->afficher(stream);
+		//medecins_[i]->afficher(stream);
 		stream << '\n';
 	}
 }

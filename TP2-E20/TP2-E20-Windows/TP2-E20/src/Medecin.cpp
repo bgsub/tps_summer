@@ -20,21 +20,31 @@ Medecin::Medecin(const std::string& nom, const std::string& numeroLicence, Speci
 {
 }
 
-
 // TODO: Methode ajouterPatient doit être remplacée par l'operateur +=. il prend en paramètre le patient à ajouter
 // Retourne true si l'opération d'ajout est réussi, false si non.
 
 //! Méthode qui ajoute un patient à liste des patients associes au médecin.
 //! \param Patient patient à ajouter
-bool Medecin:: operator+=(Patient patient )
-{	
-	if (patientsAssocies_.size() < CAPACITE_PATIENTS_INITIALE)
+bool Medecin:: operator+=(Patient& patient)
+{
+	/*if (patientsAssocies_.size() < CAPACITE_PATIENTS_INITIALE)
 	{
-		auto patientTest = std::make_shared<Patient> (patient);
+		auto patientTest = std::make_shared<Patient>(patient);
 		patientsAssocies_.push_back(std::move(patientTest));
 		return true;
 	}
-	else return false;
+	else return false;*/
+	auto patientTest = std::make_shared<Patient>(patient);
+	for (size_t i = 0;  i<patientsAssocies_.size();i++)
+	{
+		if ( patientsAssocies_[i] != patientTest)
+		{
+			patientsAssocies_.push_back(std::move(patientTest));
+			return true;
+		}
+		return false;
+	}
+	
 }
 
 
@@ -43,11 +53,11 @@ bool Medecin:: operator+=(Patient patient )
 
 //! Méthode pour supprimer un patient de la liste des patients
 //! \param le nom du patient a supprimer
-bool Medecin::supprimerPatient(const std::string& numeroAssuranceMaladie)
+bool Medecin::operator-=(std::string numAssMal)
 {
 	for (size_t i = 0; i < nbPatientsAssocies_; i++)
 	{
-		if (patientsAssocies_[i]->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
+		if (patientsAssocies_[i]->getNumeroAssuranceMaladie() == numAssMal)
 		{
 			patientsAssocies_[i].reset();
 
@@ -56,7 +66,7 @@ bool Medecin::supprimerPatient(const std::string& numeroAssuranceMaladie)
 				patientsAssocies_[j] = patientsAssocies_[j + 1];
 			}
 
-			patientsAssocies_[nbPatientsAssocies_ - 1] = nullptr;
+			patientsAssocies_.pop_back();
 			nbPatientsAssocies_--;
 
 			return true;
@@ -68,7 +78,7 @@ bool Medecin::supprimerPatient(const std::string& numeroAssuranceMaladie)
 // TODO : La methode afficher doit être remplacée par l’opérateur << 
 //! Méthode pour afficher les informations du medecin
 //! \param stream dans lequel on ecrit les informations du medecin
-void Medecin::afficher(std::ostream& stream) const
+std::ostream& operator<<(std::ostream& out, const Medecin& medecin) 
 {
 	static const std::string SPECIALITES[] = { "Generaliste",
 												"Cardiologue",
@@ -77,30 +87,39 @@ void Medecin::afficher(std::ostream& stream) const
 												"Pediatre",
 												"Ophtalmologue",
 												"Autre" };
-	auto index = enum_value(specialite_);
-	assert(valid_as_enum<Specialite>(index));
+	auto index = enum_value(medecin.specialite_);
+	assert(valid_as_enum<Medecin::Specialite>(index));                   // assert(valid_as_enum<Specialite>(index)) ne fonctionne pas
+	
 	std::string specialite = SPECIALITES[index];
 
-	std::string statut = estActif_ ? "Actif" : "Inactif";
+	std::string statut = medecin.estActif_ ? "Actif" : "Inactif";
 
-	stream << "\nMedecin: " << nom_
-		<< "\n\tNumero de licence: " << numeroLicence_
+	out << "\nMedecin: " << medecin.nom_
+		<< "\n\tNumero de licence: " << medecin.numeroLicence_
 		<< "\n\tSpecialite: " << specialite
 		<< "\n\tStatut: " << statut
-		<< (nbPatientsAssocies_ == 0 ? "\n\tAucun patient n'est suivi par ce medecin." : "\n\tPatients associes:");
+		<< (medecin.nbPatientsAssocies_ == 0 ? "\n\tAucun patient n'est suivi par ce medecin." : "\n\tPatients associes:");
 
-	for (std::size_t i = 0; i < nbPatientsAssocies_; i++)
+	for (std::size_t i = 0; i < medecin.nbPatientsAssocies_; i++)
 	{
-		stream << "\n\t\t";
-		patientsAssocies_[i]->afficher(stream);
+		out << "\n\t\t";
+		out << medecin.patientsAssocies_[i];
 	}
-	stream << '\n';
+	out << '\n';
+	return out;
 }
 
 // TODO : Opérateur == qui compare un string avec le numéro de la  licence du médecin avec medécin comme opérande de gauche
+bool Medecin:: operator==(std::string numLicence)
+{
+	return(numeroLicence_ == numLicence);
+}
 
 // TODO :  Opérateur ==  qui compare le numéro de la  licence du médecin avec un le numéro de la  licence. Le numéro de licence comme opérande de gauche.
-
+bool operator==(std::string numLicence,  Medecin medecin)
+{
+	return (medecin==numLicence);
+}
 //! Méthode qui retourne le nom du medecin
 //! \return le nom du medecin 
 const std::string& Medecin::getNom() const
@@ -152,7 +171,7 @@ const size_t Medecin::getCapacitePatientAssocies() const
 
 //! Méthode qui retourne la liste des patients associes au medecin
 //! \return la liste des patients
-std::unique_ptr<std::shared_ptr<Patient>[]> Medecin::getPatientsAssocies()
+std::vector<std::shared_ptr<Patient>> Medecin::getPatientsAssocies()
 {
 	return move(patientsAssocies_);
 }

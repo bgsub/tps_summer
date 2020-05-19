@@ -12,18 +12,44 @@ GestionnairePatients::GestionnairePatients()
 {
 }
 
+GestionnairePatients::GestionnairePatients(const GestionnairePatients& gestPatients): nbPatients_(gestPatients.nbPatients_)
+{
+	for (size_t i = 0; i < gestPatients.getNbPatients(); i++)
+	{
+		patients_.push_back(std::make_shared<Patient>(*gestPatients.patients_[i]));
+	}
+}
+
+GestionnairePatients& GestionnairePatients::operator=(const GestionnairePatients& gestPatients)
+{
+	if (this != &gestPatients)
+	{
+		patients_.clear();
+
+		for (size_t i = 0; i < gestPatients.patients_.size(); i++)
+		{
+			auto patientTest = std::make_shared<Patient>(*gestPatients.patients_[i]);
+			patients_.push_back(std::move(patientTest));
+		}
+
+	}
+
+	return *this;
+}
 
 //! Méhode qui cherche un patient par son nom
 //! \param nomPatient Le nom du patient à chercher
 //! \return Un pointeur vers le patient. Le pointeur est nullptr si le patient n'existe pas dans la liste des patients.
 Patient* GestionnairePatients::chercherPatient(const std::string& numeroAssuranceMaladie)
 {
-	for (Patient patient : patients_)
+	//for (auto patient : patients_)
+	for(size_t i = 0; i<patients_.size();i++)
 	{
 		// À adapter au vecteur et pour l'opérateur==
-		if (patient.getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
+	                                                          // vu sur gfg but no idea if it works
+		if (patients_[i].get()->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
-			return &patient;
+			return patients_[i].get() ;
 		}
 	}
 
@@ -39,7 +65,7 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 	if (fichier)
 	{
 		// À adapter au vecteur
-		nbPatients_ = 0;
+		patients_.clear();
 		std::string ligne;
 		while (getline(fichier, ligne))
 		{
@@ -62,27 +88,34 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 //! Méthode qui ajoute un patient à la liste des patients
 //! \param patient Le patient à ajouter
 //! \return       Un bool qui indique si l'opération a bien fonctionnée
-bool GestionnairePatients::ajouterPatient(const Patient& patient)
+bool GestionnairePatients:: operator+=( Patient  patient)
 {
-	if (nbPatients_ >= NB_PATIENT_MAX)
+	auto patientTest = std::make_shared<Patient>(patient);
+	for (size_t i = 0; i < patients_.size(); i++)
 	{
-		return false;
+		if (patients_[i] == std::move(patientTest)) return false;
 	}
-
-	patients_[nbPatients_++] = patient;
-	return true;
+	if (patients_.size() < NB_PATIENT_MAX)
+	{
+		patients_.push_back(patientTest);
+		return true;
+		
+	}
+	else return false;
 }
 
 // TODO : La methode afficher  doit être remplacée L’opérateur << 
 //! Méthode pour afficher la liste des patients
 //! \param stream Le stream dans lequel afficher
-void GestionnairePatients::afficher(std::ostream& stream) const
+std::ostream& operator<<(std::ostream& stream, GestionnairePatients& gestPatients)
 {
-	for (size_t i = 0; i < nbPatients_; i++)
+	for (size_t i = 0; i < gestPatients.getPatients().size(); i++)
 	{
-		patients_[i].afficher(stream);
+		stream << *(gestPatients.patients_[i].get());
 		stream << '\n';
 	}
+	stream << gestPatients.getNbPatients();  // juste pour verifier, doit etre enlever
+	return stream;
 }
 
 //! Méthode qui retourne le nombre des patients dans la liste
@@ -93,6 +126,10 @@ size_t GestionnairePatients::getNbPatients() const
 }
 
 // TODO : getPatients()  retourne une reference constante vers le vecteur patients_
+const std::vector<std::shared_ptr<Patient>>& GestionnairePatients::getPatients() const
+{
+	return patients_;
+}
 
 //! Méthode qui lit les attributs d'un patient
 //! \param ligne  Le string qui contient les attributs
@@ -110,7 +147,9 @@ bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 	if (stream >> quoted(nomPatient) >> quoted(anneeDeNaissance) >> quoted(numeroAssuranceMaladie))
 	{
 		// Adapter cette méthode pour utiliser l'opérateur+=
-		return ajouterPatient(Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie));
+		Patient patient = Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie);
+		bool succes = operator+=(patient);
+		return succes;
 	}
-	return false;
+	else return false;
 }

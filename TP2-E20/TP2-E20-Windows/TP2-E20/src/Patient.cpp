@@ -19,24 +19,24 @@ Patient::Patient(const std::string& nom, const std::string& dateDeNaissance, con
 // TODO : La methode afficher doit être remplacée par l’opérateur << 
 //! Méthode qui affiche les informations d'un patient
 //! \param stream Le stream dans lequel afficher.
-std::ostream& operator<<(std::ostream& out, const Patient& patient)
+std::ostream& operator<<(std::ostream& stream, Patient& patient)
 {
 	
-	out << "Patient: " << patient.nom_ << " | Date de naissance: " << patient.dateDeNaissance_
+	stream << "Patient: " << patient.nom_ << " | Date de naissance: " << patient.dateDeNaissance_
 		<< " | Numero d\'assurance maladie: " << patient.numeroAssuranceMaladie_;
-	return out;
+	return stream;
 }
 
 // TODO : Opérateur == qui compare un string avec le numero d'assurance maladie du patient avec patient comme opérande de gauche
-bool Patient:: operator==(std::string& nom)
+bool Patient:: operator==(std::string numAssMal)
 {
-	return (nom == nom_);
+	return(numeroAssuranceMaladie_ == numAssMal);
 }
 
 // TODO : Opérateur == qui compare le numero d'assurance maladie du patient avec le numero d'assurance comme opérande de gauche.
- bool operator==(std::string& nom,  Patient patient)      // pas pareil que la declaration ?
+ bool operator==(std::string numAssMal,   Patient patient)      // pas pareil que la declaration ?
 {
-	return (patient == nom);
+	 return(patient == numAssMal);
 }
 
 //! Méthode qui retourne le nom du patient
