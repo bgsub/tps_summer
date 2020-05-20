@@ -120,6 +120,19 @@ bool operator==(std::string numLicence,  Medecin medecin)
 {
 	return (medecin==numLicence);
 }
+// TODO : Patient* chercherPatient(const std::string& numeroAssuranceMaladie) : une méthode qui cherche un patient qui retourne un pointeur vers le patient
+// Si non on retourne nullptr
+Patient* Medecin:: chercherPatient(const std::string& numeroAssuranceMaladie)
+{
+	for (size_t i = 0; patientsAssocies_.size(); i++)
+	{
+		if (patientsAssocies_[i]->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
+		{
+			return patientsAssocies_[i].get();
+		}
+		else return nullptr;
+	}
+}
 //! Méthode qui retourne le nom du medecin
 //! \return le nom du medecin 
 const std::string& Medecin::getNom() const
@@ -173,7 +186,7 @@ const size_t Medecin::getCapacitePatientAssocies() const
 //! \return la liste des patients
 std::vector<std::shared_ptr<Patient>> Medecin::getPatientsAssocies()
 {
-	return move(patientsAssocies_);
+	return (std::move(patientsAssocies_));
 }
 
 //! Méthode qui met a jours le nom  du medecin

@@ -39,7 +39,7 @@ public:
     // opérateur== qui compare un string avec le numéro licence du médecin deuxieme sens 
     friend bool operator==(std::string numLicence, const Medecin medecin);
     // (par exemple, pour "158795" == medecin)
-
+    Patient* chercherPatient(const std::string& numeroAssuranceMaladie);
     
     const std::string& getNom() const;
     const std::string& getNumeroLicence() const;

@@ -1,11 +1,6 @@
-﻿  Consultation.cpp
-  GestionnaireMedecins.cpp
-  GestionnairePatients.cpp
-  Hopital.cpp
-  Medecin.cpp
-  Patient.cpp
-  main.cpp
-  Generating Code...
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\Medecin.cpp(38): warning C4702: unreachable code
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\Medecin.cpp(48): warning C4715: 'Medecin::operator+=': not all control paths return a value
+﻿  GestionnaireMedecins.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(51): warning C4702: unreachable code
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(63): warning C4715: 'GestionnaireMedecins::chercherMedecin': not all control paths return a value
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(101): warning C4702: unreachable code
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(111): warning C4715: 'GestionnaireMedecins::operator+=': not all control paths return a value
   TP2-E20.vcxproj -> C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\x64\Debug\TP2-E20.exe

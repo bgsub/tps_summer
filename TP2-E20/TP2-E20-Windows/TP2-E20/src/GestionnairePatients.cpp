@@ -14,6 +14,7 @@ GestionnairePatients::GestionnairePatients()
 
 GestionnairePatients::GestionnairePatients(const GestionnairePatients& gestPatients): nbPatients_(gestPatients.nbPatients_)
 {
+	patients_.clear();
 	for (size_t i = 0; i < gestPatients.getNbPatients(); i++)
 	{
 		patients_.push_back(std::make_shared<Patient>(*gestPatients.patients_[i]));
@@ -24,13 +25,14 @@ GestionnairePatients& GestionnairePatients::operator=(const GestionnairePatients
 {
 	if (this != &gestPatients)
 	{
-		patients_.clear();
-
-		for (size_t i = 0; i < gestPatients.patients_.size(); i++)
+		//patients_.clear();
+		nbPatients_ = gestPatients.nbPatients_;
+		/*for (size_t i = 0; i < gestPatients.patients_.size(); i++)
 		{
 			auto patientTest = std::make_shared<Patient>(*gestPatients.patients_[i]);
 			patients_.push_back(std::move(patientTest));
-		}
+		}*/
+		patients_ = gestPatients.patients_;
 
 	}
 
@@ -46,7 +48,7 @@ Patient* GestionnairePatients::chercherPatient(const std::string& numeroAssuranc
 	for(size_t i = 0; i<patients_.size();i++)
 	{
 		// À adapter au vecteur et pour l'opérateur==
-	                                                          // vu sur gfg but no idea if it works
+	                                                       
 		if (patients_[i].get()->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
 			return patients_[i].get() ;
@@ -73,8 +75,10 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 			{
 				return false;
 			}
+			
 		}
 		return true;
+	
 	}
 	std::cerr << "Le fichier " << nomFichier
 		<< " n'existe pas. Assurez vous de le mettre au bon endroit.\n";
@@ -88,12 +92,13 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 //! Méthode qui ajoute un patient à la liste des patients
 //! \param patient Le patient à ajouter
 //! \return       Un bool qui indique si l'opération a bien fonctionnée
-bool GestionnairePatients:: operator+=( Patient  patient)
+bool GestionnairePatients:: operator+=( const Patient&  patient)
 {
 	auto patientTest = std::make_shared<Patient>(patient);
 	for (size_t i = 0; i < patients_.size(); i++)
 	{
 		if (patients_[i] == std::move(patientTest)) return false;
+
 	}
 	if (patients_.size() < NB_PATIENT_MAX)
 	{
@@ -107,14 +112,15 @@ bool GestionnairePatients:: operator+=( Patient  patient)
 // TODO : La methode afficher  doit être remplacée L’opérateur << 
 //! Méthode pour afficher la liste des patients
 //! \param stream Le stream dans lequel afficher
-std::ostream& operator<<(std::ostream& stream, GestionnairePatients& gestPatients)
+std::ostream& operator<<(std::ostream& stream,const GestionnairePatients& gestPatients)
 {
-	for (size_t i = 0; i < gestPatients.getPatients().size(); i++)
+	for (size_t i = 0; i < gestPatients.getNbPatients(); i++)
 	{
-		stream << *(gestPatients.patients_[i].get());
+		stream << *(gestPatients.patients_[i]);
 		stream << '\n';
+	
 	}
-	stream << gestPatients.getNbPatients();  // juste pour verifier, doit etre enlever
+	//stream << gestPatients.getNbPatients();  // juste pour verifier, doit etre enlever
 	return stream;
 }
 
@@ -122,7 +128,7 @@ std::ostream& operator<<(std::ostream& stream, GestionnairePatients& gestPatient
 //! \return Le nombre de patients dans la liste
 size_t GestionnairePatients::getNbPatients() const
 {
-	return nbPatients_;
+	return patients_.size();                         // return nbPatients_ fonctionne pas.
 }
 
 // TODO : getPatients()  retourne une reference constante vers le vecteur patients_
@@ -149,7 +155,6 @@ bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 		// Adapter cette méthode pour utiliser l'opérateur+=
 		Patient patient = Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie);
 		bool succes = operator+=(patient);
-		return succes;
 	}
 	else return false;
 }

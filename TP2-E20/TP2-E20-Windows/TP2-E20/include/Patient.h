@@ -13,7 +13,7 @@ public:
     //void afficher(std::ostream& stream) const;
 
     // TODO : la signature des opérateur  à surcharger
-   friend std::ostream& operator<< (std::ostream & stream,  Patient& patient);
+   friend std::ostream& operator<< (std::ostream & stream, const  Patient& patient);
     //opérateur== qui compare un string avec le numéro d'assurance de maladie d'un patient
    bool operator==(std::string numAssMAl);
     // opérateur== qui compare un string avec le numéro d'assurance de maladie d'un patient

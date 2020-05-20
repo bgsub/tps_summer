@@ -19,7 +19,7 @@ Patient::Patient(const std::string& nom, const std::string& dateDeNaissance, con
 // TODO : La methode afficher doit être remplacée par l’opérateur << 
 //! Méthode qui affiche les informations d'un patient
 //! \param stream Le stream dans lequel afficher.
-std::ostream& operator<<(std::ostream& stream, Patient& patient)
+std::ostream& operator<<(std::ostream& stream, const Patient& patient) 
 {
 	
 	stream << "Patient: " << patient.nom_ << " | Date de naissance: " << patient.dateDeNaissance_

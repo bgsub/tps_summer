@@ -16,12 +16,12 @@ public:
     Patient* chercherPatient(const std::string& numeroAssuranceMaladie);
     bool chargerDepuisFichier(const std::string& nomFichier);
     //void afficher(std::ostream& stream) const;
-
+    
     // TODO fait : signature des opérateurs à surcharger.
     // opérateur<< qui remplace afficher
-    friend std::ostream& operator<<(std::ostream& stream,  GestionnairePatients& gestPatients);
+    friend std::ostream& operator<<(std::ostream& stream, const  GestionnairePatients& gestPatients);
     // opérateur+= qui remplace ajouterPatient
-    bool operator+=(Patient patient);
+    bool operator+=(const Patient& patient);
 
 
     size_t getNbPatients() const;
