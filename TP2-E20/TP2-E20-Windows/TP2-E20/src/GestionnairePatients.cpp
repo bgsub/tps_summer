@@ -97,7 +97,7 @@ bool GestionnairePatients:: operator+=( const Patient&  patient)
 	auto patientTest = std::make_shared<Patient>(patient);
 	for (size_t i = 0; i < patients_.size(); i++)
 	{
-		if (patients_[i] == std::move(patientTest)) return false;
+		if (patients_[i] == patientTest)return false;    // utiliser chercher patient
 
 	}
 	if (patients_.size() < NB_PATIENT_MAX)

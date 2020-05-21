@@ -30,7 +30,7 @@ public:
     // TODO : signature des opérateurs à surcharger.
     friend std::ostream& operator<< (std::ostream& out, const Medecin& patient);
     // opérateur+= qui remplace ajouterPatient 
-    bool operator+=(Patient& patient);
+    bool operator+=( Patient& patient);
     // opérateur-= qui remplace supprimerPatient
     bool operator-=(std::string numAssMal);
     // opérateur== qui compare un string avec le numéro licence du médecin premier sens 
@@ -45,9 +45,9 @@ public:
     const std::string& getNumeroLicence() const;
     bool getEstActif() const;
     const Specialite getSpecialite() const;
-    const size_t getCapacitePatientAssocies() const;
+   // const size_t getCapacitePatientAssocies() const;
     const size_t getNombrePatientsAssocies() const;
-    std::vector<std::shared_ptr<Patient>> getPatientsAssocies();
+    std::vector<Patient*> getPatientsAssocies() const;
 
     void setNom(const std::string& nom);
     void setNumeroLicence(const std::string& numeroLicence);
@@ -62,9 +62,9 @@ private:
     bool estActif_ = true;
 
     // TODO: remplacer le tableau par un vecetur de Patient*
-    std::vector<std::shared_ptr<Patient>> patientsAssocies_;                               // pas sur
-    size_t nbPatientsAssocies_;
-    size_t capacitePatientsAssocies_;
+    std::vector<Patient*> patientsAssocies_;                               // pas sur
+   // size_t nbPatientsAssocies_;  
+   
 
 };
 

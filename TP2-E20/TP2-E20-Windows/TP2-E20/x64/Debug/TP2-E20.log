@@ -1,6 +1,4 @@
-﻿  GestionnaireMedecins.cpp
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(51): warning C4702: unreachable code
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(63): warning C4715: 'GestionnaireMedecins::chercherMedecin': not all control paths return a value
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(101): warning C4702: unreachable code
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(111): warning C4715: 'GestionnaireMedecins::operator+=': not all control paths return a value
+﻿  main.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\main.cpp(325,7): warning C4189: 'test1': local variable is initialized but not referenced
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\main.cpp(105,7): warning C4189: 'test': local variable is initialized but not referenced
   TP2-E20.vcxproj -> C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\x64\Debug\TP2-E20.exe

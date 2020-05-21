@@ -14,10 +14,10 @@ Medecin::Medecin(const std::string& nom, const std::string& numeroLicence, Speci
 	: nom_(nom)
 	, numeroLicence_(numeroLicence)
 	, specialite_(specialite)
-	, nbPatientsAssocies_(0)
-	, capacitePatientsAssocies_(CAPACITE_PATIENTS_INITIALE)
-	, patientsAssocies_(std::vector<std::shared_ptr<Patient>>(CAPACITE_PATIENTS_INITIALE))
+
 {
+
+
 }
 
 // TODO: Methode ajouterPatient doit être remplacée par l'operateur +=. il prend en paramètre le patient à ajouter
@@ -25,7 +25,7 @@ Medecin::Medecin(const std::string& nom, const std::string& numeroLicence, Speci
 
 //! Méthode qui ajoute un patient à liste des patients associes au médecin.
 //! \param Patient patient à ajouter
-bool Medecin:: operator+=(Patient& patient)
+bool Medecin:: operator+=( Patient& patient)
 {
 	/*if (patientsAssocies_.size() < CAPACITE_PATIENTS_INITIALE)
 	{
@@ -34,17 +34,17 @@ bool Medecin:: operator+=(Patient& patient)
 		return true;
 	}
 	else return false;*/
-	auto patientTest = std::make_shared<Patient>(patient);
-	for (size_t i = 0;  i<patientsAssocies_.size();i++)
+
+	if (chercherPatient(patient.getNumeroAssuranceMaladie()) == nullptr)
 	{
-		if ( patientsAssocies_[i] != patientTest)
-		{
-			patientsAssocies_.push_back(std::move(patientTest));
-			return true;
-		}
-		return false;
+		//Patient* patientTest = new Patient(patient);
+		patientsAssocies_.push_back(&patient);
+		return true;
+
 	}
 	
+
+
 }
 
 
@@ -55,19 +55,18 @@ bool Medecin:: operator+=(Patient& patient)
 //! \param le nom du patient a supprimer
 bool Medecin::operator-=(std::string numAssMal)
 {
-	for (size_t i = 0; i < nbPatientsAssocies_; i++)
+	for (size_t i = 0; i < patientsAssocies_.size(); i++)
 	{
 		if (patientsAssocies_[i]->getNumeroAssuranceMaladie() == numAssMal)
 		{
-			patientsAssocies_[i].reset();
 
-			for (size_t j = i; j < nbPatientsAssocies_ - 1; j++)
+			for (size_t j = i; j < patientsAssocies_.size() - 1; j++)
 			{
 				patientsAssocies_[j] = patientsAssocies_[j + 1];
 			}
 
 			patientsAssocies_.pop_back();
-			nbPatientsAssocies_--;
+			
 
 			return true;
 		}
@@ -98,12 +97,12 @@ std::ostream& operator<<(std::ostream& out, const Medecin& medecin)
 		<< "\n\tNumero de licence: " << medecin.numeroLicence_
 		<< "\n\tSpecialite: " << specialite
 		<< "\n\tStatut: " << statut
-		<< (medecin.nbPatientsAssocies_ == 0 ? "\n\tAucun patient n'est suivi par ce medecin." : "\n\tPatients associes:");
+		<< (medecin.patientsAssocies_.size() == 0 ? "\n\tAucun patient n'est suivi par ce medecin." : "\n\tPatients associes:");
 
-	for (std::size_t i = 0; i < medecin.nbPatientsAssocies_; i++)
+	for (std::size_t i = 0; i < medecin.patientsAssocies_.size(); i++)
 	{
 		out << "\n\t\t";
-		out << medecin.patientsAssocies_[i];
+		out << *medecin.patientsAssocies_[i];
 	}
 	out << '\n';
 	return out;
@@ -124,14 +123,15 @@ bool operator==(std::string numLicence,  Medecin medecin)
 // Si non on retourne nullptr
 Patient* Medecin:: chercherPatient(const std::string& numeroAssuranceMaladie)
 {
-	for (size_t i = 0; patientsAssocies_.size(); i++)
+	for (size_t i = 0; i<patientsAssocies_.size(); i++)
 	{
 		if (patientsAssocies_[i]->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
-			return patientsAssocies_[i].get();
+			return patientsAssocies_[i];
 		}
-		else return nullptr;
+	
 	}
+	return nullptr;
 }
 //! Méthode qui retourne le nom du medecin
 //! \return le nom du medecin 
@@ -170,23 +170,22 @@ const Medecin::Specialite Medecin::getSpecialite() const
 //! \return le nombre patient associes
 const size_t Medecin::getNombrePatientsAssocies() const
 {
-
-	return nbPatientsAssocies_;
+	return patientsAssocies_.size();
 }
 
 //! Méthode qui retourne la capacité du tableau patientsAssocies_
 //! \return la capacité du tableau patientsAssocies_
-const size_t Medecin::getCapacitePatientAssocies() const
-{
-
-	return capacitePatientsAssocies_;
-}
+//const size_t Medecin::getCapacitePatientAssocies() const
+//{
+//
+//	return capacitePatientsAssocies_;
+//}
 
 //! Méthode qui retourne la liste des patients associes au medecin
 //! \return la liste des patients
-std::vector<std::shared_ptr<Patient>> Medecin::getPatientsAssocies()
+ std::vector<Patient*> Medecin::getPatientsAssocies() const
 {
-	return (std::move(patientsAssocies_));
+	return patientsAssocies_;
 }
 
 //! Méthode qui met a jours le nom  du medecin
