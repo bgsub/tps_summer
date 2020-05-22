@@ -18,8 +18,11 @@ public:
     
     //TODO : la signature des opérateurs à surcharger
     // opérateur+= qui ajoute une instance de Consultation
+    bool operator+=( Consultation& patient);
     // opérateur+= qui ajoute une instance de Medecin
+    bool operator+=( Medecin& patient);
     // opérateur+= qui ajoute une instance de Patient
+    bool operator+=( Patient& patient);
 
 
     const std::string& getNom() const;
@@ -28,7 +31,7 @@ public:
     GestionnairePatients& getGestionnairePatients();
 
     // TODO : la signature de getConsultations()
-
+    const std::vector <std:: shared_ptr<Consultation>> & getConsultations() const;
 
 
     void setNom(const std::string& nom);
@@ -42,6 +45,7 @@ private:
     GestionnairePatients gestionnairePatients_;
 
     //TODO : vecteur de shared_ptr de Consultation consultations_
+    std::vector <std::shared_ptr<Consultation>> consultations_;
 
 };
 

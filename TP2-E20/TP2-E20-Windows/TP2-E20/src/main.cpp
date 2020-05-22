@@ -33,7 +33,7 @@ int main()
 
 	std::vector<bool> tests;
 
-// Test 1 : tester la classe Patient
+	// Test 1 : tester la classe Patient
 #if true
 
 	// Tester l'affichage du patient
@@ -49,23 +49,23 @@ int main()
 			[](unsigned char c) { return std::isspace(c); }),
 		patientString.end());
 
-	tests.push_back(sortieAttenduePatient == patientString);                                                                                 /////   1
+	tests.push_back(sortieAttenduePatient == patientString);
 
-	//Tester l'operateur == (dans les deux sens)
-	tests.push_back(patientTest == "1000000" && "1000000" == patientTest && !(patientTest == "123456") && !("123456" == patientTest));         ///// 2
+	// Tester l'operateur == (dans les deux sens)
+	tests.push_back(patientTest == "1000000" && "1000000" == patientTest && !(patientTest == "123456") && !("123456" == patientTest));
 #else
 	tests.push_back(false);
 	tests.push_back(false);
 #endif
 
-// Test 2 : tester la classe Medecin
+	// Test 2 : tester la classe Medecin
 #if true
 
 	// Tester l'affichage du medecin
 	std::stringstream medecinStream;
 	medecinStream << medecinTest << std::endl;
 	std::string medecinString = medecinStream.str();
-	std::cout << medecinString << '\n'; 
+	std::cout << medecinString << '\n';
 
 	std::string sortieAttendueMedecin =
 		"Medecin:TamardNumerodelicence:1000000Specialite:CardiologueStatut:ActifAucunpatientn'estsuiviparcemedecin.";
@@ -75,10 +75,10 @@ int main()
 			[](unsigned char c) { return std::isspace(c); }),
 		medecinString.end());
 
-	tests.push_back(sortieAttendueMedecin == medecinString);                                                         // 3
+	tests.push_back(sortieAttendueMedecin == medecinString);
 
 	// Tester l'operateur == (dans les deux sens)
-	tests.push_back(medecinTest == "1000000" && "1000000" == medecinTest && !(medecinTest == "123456") && !("123456" == medecinTest)); // 4
+	tests.push_back(medecinTest == "1000000" && "1000000" == medecinTest && !(medecinTest == "123456") && !("123456" == medecinTest));
 
 	// Tester l'operateur += (ajout de patient)
 	medecinTest += patientTest;
@@ -96,13 +96,12 @@ int main()
 	sortieAttendueMedecin =
 		"Medecin:TamardNumerodelicence:1000000Specialite:CardiologueStatut:ActifPatientsassocies:"
 		"Patient:Simon|Datedenaissance:25/10/92|Numerod'assurancemaladie:1000000";
-	std::cout << medecinTest.getNombrePatientsAssocies() << std::endl;
-	tests.push_back(medecinTest.getNombrePatientsAssocies() == 1                                                             //5  nope
+
+	tests.push_back(medecinTest.getNombrePatientsAssocies() == 1
 		&& medecinTest.getPatientsAssocies().size() == 1
 		&& *medecinTest.getPatientsAssocies()[0] == patientTest.getNumeroAssuranceMaladie()
 		&& sortieAttendueMedecin == medecinString);
 
-	bool test = sortieAttendueMedecin == medecinString;
 	// Tester l'operateur -= (supression de patient)
 	medecinTest -= patientTest.getNumeroAssuranceMaladie();
 
@@ -119,7 +118,7 @@ int main()
 			[](unsigned char c) { return std::isspace(c); }),
 		medecinString.end());
 
-	tests.push_back(medecinTest.getNombrePatientsAssocies() == 0                                             //6 nope 
+	tests.push_back(medecinTest.getNombrePatientsAssocies() == 0
 		&& medecinTest.getPatientsAssocies().empty()
 		&& sortieAttendueMedecin == medecinString);
 
@@ -130,13 +129,13 @@ int main()
 	tests.push_back(false);
 #endif
 
-// Test 3 : tester la classe GestionnairePatients
+	// Test 3 : tester la classe GestionnairePatients
 #if true
-	
+
 	// Tester le chargement de fichier
 	bool resultatLecturePatients = gestionnairePatients.chargerDepuisFichier("patients.txt") &&
 		gestionnairePatients.chargerDepuisFichier("patients.txt");
-	tests.push_back(resultatLecturePatients);                                          //7
+	tests.push_back(resultatLecturePatients);
 
 	// Tester l 'affichage des patients
 	std::stringstream patientsStream;
@@ -152,7 +151,7 @@ int main()
 			[](unsigned char c) { return std::isspace(c); }),
 		patientsString.end());
 
-	tests.push_back(sortieAttenduePatients == patientsString                                     //8  nope
+	tests.push_back(sortieAttenduePatients == patientsString
 		&& gestionnairePatients.getNbPatients() == 2);
 
 	// Tester le constructeur de copie
@@ -164,9 +163,9 @@ int main()
 			break;
 		}
 	}
-	tests.push_back(gestionnairePatientCopieTest1.getPatients() != gestionnairePatients.getPatients()                       //9
+	tests.push_back(gestionnairePatientCopieTest1.getPatients() != gestionnairePatients.getPatients()
 		&& test3Reussi);
-	
+
 	// Tester l'operateur d'affectation
 	GestionnairePatients gestionnairePatientCopieTest2;
 	gestionnairePatientCopieTest2 = gestionnairePatients;
@@ -178,7 +177,7 @@ int main()
 		}
 	}
 
-	tests.push_back(&gestionnairePatientCopieTest2.getPatients() != &gestionnairePatients.getPatients() && test4Reussi);  //10
+	tests.push_back(&gestionnairePatientCopieTest2.getPatients() != &gestionnairePatients.getPatients() && test4Reussi);
 
 	// Tester l'operateur += (ajout de patients)
 	bool test5Reussi = true;
@@ -196,16 +195,16 @@ int main()
 	if (test5Reussi == true)
 	{
 		bool succes = gestionnairePatients += (Patient("", "", ""));
-		tests.push_back(!succes);                                             //11
+		tests.push_back(!succes);
 	}
 
-    // Tester la fonction recherche patient
+	// Tester la fonction recherche patient
 	Patient* patient = gestionnairePatients.chercherPatient("louj010304");
 	Patient* patientInexistant = gestionnairePatients.chercherPatient("qwerty");
 	if (patient == nullptr || patientInexistant != nullptr)
 		tests.push_back(false);
 	else
-		tests.push_back(patient->getDateDeNaissance() == "12/12/2001");         //12
+		tests.push_back(patient->getDateDeNaissance() == "12/12/2001");
 
 #else
 	tests.push_back(false);
@@ -216,13 +215,13 @@ int main()
 	tests.push_back(false);
 #endif
 
-// Test 4 : tester la classe GestionnaireMedecins
+	// Test 4 : tester la classe GestionnaireMedecins
 #if true
-	
+
 	// Tester le chargement de fichier
 	bool resultatLectureMedecins = gestionnaireMedecins.chargerDepuisFichier("medecins.txt") &&
 		gestionnaireMedecins.chargerDepuisFichier("medecins.txt");
-	tests.push_back(resultatLectureMedecins);                                           //13
+	tests.push_back(resultatLectureMedecins);
 
 	// Tester l 'affichage des medecins
 	std::stringstream medecinsStream;
@@ -239,7 +238,7 @@ int main()
 		medecinsString.end());
 
 	tests.push_back(sortieAttendueMedecins == medecinsString
-		&& gestionnaireMedecins.getNbMedecins() == 2);             //   14  nope
+		&& gestionnaireMedecins.getNbMedecins() == 2);
 
 	// Tester le constructeur de copie
 	GestionnaireMedecins gestionnaireMedecinCopieTest1 = GestionnaireMedecins(gestionnaireMedecins);
@@ -250,8 +249,8 @@ int main()
 			break;
 		}
 	}
-	tests.push_back(gestionnaireMedecinCopieTest1.getMedecins() != gestionnaireMedecins.getMedecins() 
-		&& test6Reussi);                                      //15
+	tests.push_back(gestionnaireMedecinCopieTest1.getMedecins() != gestionnaireMedecins.getMedecins()
+		&& test6Reussi);
 
 	// Tester l'operateur d'affectation
 	GestionnaireMedecins gestionnaireMedecinCopieTest2;
@@ -263,8 +262,8 @@ int main()
 			break;
 		}
 	}
-	tests.push_back(gestionnaireMedecinCopieTest2.getMedecins() != gestionnaireMedecins.getMedecins() 
-		&& test7Reussi);          //16
+	tests.push_back(gestionnaireMedecinCopieTest2.getMedecins() != gestionnaireMedecins.getMedecins()
+		&& test7Reussi);
 
 	// Tester l'operateur += (ajout de medecins)
 	bool test8Reussi = true;
@@ -283,19 +282,19 @@ int main()
 			break;
 		}
 	}
-	tests.push_back(gestionnaireMedecins.getNbMedecins() == 6 && gestionnaireMedecins.getMedecins().size() == 6 && test8Reussi);     //17
+	tests.push_back(gestionnaireMedecins.getNbMedecins() == 6 && gestionnaireMedecins.getMedecins().size() == 6 && test8Reussi);
 
-	//// Tester l'operateur -= (supprimer medecin)
-	//bool medecinEstSupprime = gestionnaireMedecins -= ("tt1234");
-	//bool medecinNonSupprime = gestionnaireMedecins -= ("qwerty");
+	// Tester l'operateur -= (supprimer medecin)
+	bool medecinEstSupprime = gestionnaireMedecins -= ("tt1234");
+	bool medecinNonSupprime = gestionnaireMedecins -= ("qwerty");
 
-	//if (!medecinEstSupprime || medecinNonSupprime)
-	//	tests.push_back(false);
-	//else
-	//{
-	//	Medecin* medecin = gestionnaireMedecins.chercherMedecin("tt1234");
-	//	tests.push_back(medecin != nullptr && !medecin->getEstActif());       //18 nope 
-	//}
+	if (!medecinEstSupprime || medecinNonSupprime)
+		tests.push_back(false);
+	else
+	{
+		Medecin* medecin = gestionnaireMedecins.chercherMedecin("tt1234");
+		tests.push_back(medecin != nullptr && !medecin->getEstActif());
+	}
 
 	// Tester fonction chercher Medecin
 	Medecin* medecinAChercher = gestionnaireMedecins.chercherMedecin("tt1234");
@@ -303,7 +302,7 @@ int main()
 	if (medecinAChercher == nullptr || medecinInexistant != nullptr)
 		tests.push_back(false);
 	else
-		tests.push_back(medecinAChercher->getNom() == "Lourdes John");           //19 nope 
+		tests.push_back(medecinAChercher->getNom() == "Lourdes John");
 
 #else
 	tests.push_back(false);
@@ -315,14 +314,13 @@ int main()
 	tests.push_back(false);
 #endif
 
-// Test 5 : tester la classe Consultation
+	// Test 5 : tester la classe Consultation
 #if true
 	Consultation consultation = Consultation(medecinTest, patientTest, "05/05/2020");
-	
+
 	// Tester le constructeur de Consultation
-	tests.push_back(medecinTest.chercherPatient(patientTest.getNumeroAssuranceMaladie()) 
-		&& *medecinTest.getPatientsAssocies()[0] == patientTest.getNumeroAssuranceMaladie()); //19
-	bool test1 = *medecinTest.getPatientsAssocies()[0] == patientTest.getNumeroAssuranceMaladie();
+	tests.push_back(medecinTest.chercherPatient(patientTest.getNumeroAssuranceMaladie())
+		&& *medecinTest.getPatientsAssocies()[0] == patientTest.getNumeroAssuranceMaladie());
 
 	// Tester l 'affichage de la consultation
 	std::stringstream consultationStream;
@@ -337,50 +335,51 @@ int main()
 			[](unsigned char c) { return std::isspace(c); }),
 		consultationString.end());
 
-	tests.push_back(sortieAttendueConsultation == consultationString); //2
+	tests.push_back(sortieAttendueConsultation == consultationString);
 
 #else
 	tests.push_back(false);
 	tests.push_back(false);
 #endif
 
-//// Test 6 : tester la classe Hopital
-//#if false
-//	Hopital hopital = Hopital("CHUM", "1051 Rue Sanguinet, Montréal, QC H2X 3E4");
-//
-//	// Tester le chargement de la base de données
-//	bool resultatLectureBaseDeDonnees = hopital.chargerBaseDeDonnees("medecins.txt", "patients.txt") 
-//		&& hopital.chargerBaseDeDonnees("medecins.txt", "patients.txt");
-//	tests.push_back(hopital.getGesionnaireMedecins().getNbMedecins() == 2
-//		&& hopital.getGestionnairePatients().getNbPatients() == 2 && resultatLectureBaseDeDonnees);//22
-//
-//	// Tester l'ajout d'une consultation (operator+=)
-//	size_t tailleInitialeConsultations = hopital.getConsultations().size();
-//	Consultation consultationTestEchoue(medecinTest, patientTest, "05/05/2020");
-//	Medecin* medecinExistant = hopital.getGesionnaireMedecins().chercherMedecin("tt1234");
-//	Patient* patientExistant = hopital.getGestionnairePatients().chercherPatient("louj010304");
-//	Consultation consultationTestReussi(*medecinExistant, *patientExistant, "05/05/2020");
-//	tests.push_back(!(hopital += consultationTestEchoue) && tailleInitialeConsultations == hopital.getConsultations().size()
-//		&& (hopital += consultationTestReussi) && (tailleInitialeConsultations + 1 == hopital.getConsultations().size()));//23
-//
-//	// Tester l'ajout d'un medecin (operator+=)
-//	size_t tailleInitialeMedecins = hopital.getGesionnaireMedecins().getNbMedecins();
-//	medecinExistant = hopital.getGesionnaireMedecins().chercherMedecin("tt1234");
-//	tests.push_back(!(hopital += *medecinExistant) && tailleInitialeMedecins == hopital.getGesionnaireMedecins().getNbMedecins()
-//		&& (hopital += medecinTest) && (tailleInitialeMedecins + 1 == hopital.getGesionnaireMedecins().getNbMedecins()));//24
-//
-//	// Tester l'ajout d'un patient (operator+=)
-//	size_t tailleInitialePatients = hopital.getGestionnairePatients().getNbPatients();
-//	patientExistant = hopital.getGestionnairePatients().chercherPatient("louj010304");
-//	tests.push_back(!(hopital += *patientExistant) && tailleInitialePatients == hopital.getGestionnairePatients().getNbPatients()
-//		&& (hopital += patientTest) && (tailleInitialePatients + 1 == hopital.getGestionnairePatients().getNbPatients()));//25
-//	
-//#else
-//	tests.push_back(false);
-//	tests.push_back(false);
-//	tests.push_back(false);
-//	tests.push_back(false);
-//#endif
+	// Test 6 : tester la classe Hopital
+#if true
+	Hopital hopital = Hopital("CHUM", "1051 Rue Sanguinet, Montréal, QC H2X 3E4");
+
+	// Tester le chargement de la base de données
+	bool resultatLectureBaseDeDonnees = hopital.chargerBaseDeDonnees("medecins.txt", "patients.txt")
+		&& hopital.chargerBaseDeDonnees("medecins.txt", "patients.txt");
+	tests.push_back(hopital.getGesionnaireMedecins().getNbMedecins() == 2
+		&& hopital.getGestionnairePatients().getNbPatients() == 2 && resultatLectureBaseDeDonnees);
+
+	// Tester l'ajout d'une consultation (operator+=)
+	size_t tailleInitialeConsultations = hopital.getConsultations().size();
+	Consultation consultationTestEchoue(medecinTest, patientTest, "05/05/2020");
+	Medecin* medecinExistant = hopital.getGesionnaireMedecins().chercherMedecin("tt1234");
+	Patient* patientExistant = hopital.getGestionnairePatients().chercherPatient("louj010304");
+	Consultation consultationTestReussi(*medecinExistant, *patientExistant, "05/05/2020");
+	tests.push_back(!(hopital += consultationTestEchoue) && tailleInitialeConsultations == hopital.getConsultations().size()
+		&& (hopital += consultationTestReussi) && (tailleInitialeConsultations + 1 == hopital.getConsultations().size()));
+
+	// Tester l'ajout d'un medecin (operator+=)
+	size_t tailleInitialeMedecins = hopital.getGesionnaireMedecins().getNbMedecins();
+	medecinExistant = hopital.getGesionnaireMedecins().chercherMedecin("tt1234");
+	tests.push_back(!(hopital += *medecinExistant) && tailleInitialeMedecins == hopital.getGesionnaireMedecins().getNbMedecins()
+		&& (hopital += medecinTest) && (tailleInitialeMedecins + 1 == hopital.getGesionnaireMedecins().getNbMedecins()));
+	bool test = tailleInitialeMedecins + 1 == hopital.getGesionnaireMedecins().getNbMedecins();
+	
+	// Tester l'ajout d'un patient (operator+=)
+	size_t tailleInitialePatients = hopital.getGestionnairePatients().getNbPatients();
+	patientExistant = hopital.getGestionnairePatients().chercherPatient("louj010304");
+	tests.push_back(!(hopital += *patientExistant) && tailleInitialePatients == hopital.getGestionnairePatients().getNbPatients()
+		&& (hopital += patientTest) && (tailleInitialePatients + 1 == hopital.getGestionnairePatients().getNbPatients()));
+
+#else
+	tests.push_back(false);
+	tests.push_back(false);
+	tests.push_back(false);
+	tests.push_back(false);
+#endif
 
 	std::vector<float> ponderationTests = { 0.25, 1,								// Patient
 											0.25, 1, 0.5, 0.5,						// Medecin
@@ -388,7 +387,7 @@ int main()
 											0.25, 0.25, 0.5, 0.5, 0.5, 0.5, 0.25,	// GestionnaireMedecins
 											0.25, 0.25,								// Consultation
 											0.25, 0.25, 0.25, 0.25					// Hopital
-									       };
+	};
 
 	// Affichage
 	float totalPoints = 0;

@@ -6,30 +6,16 @@
 
 // TODO : compléter Constructeur par paramètre de la classe Consulation en utilisant la liste d'initialisation
 // Assurer d'ajouter le patient à la liste des patients assoicés au medecin s'il n'y existe pas.
-Consultation::Consultation(Medecin& medecin, Patient& patient, const std::string& date):medecin_(new Medecin(medecin)),patient_(new Patient (patient)),date_(date)
+Consultation::Consultation(Medecin& medecin, Patient& patient, const std::string& date):medecin_(new Medecin (medecin)), patient_(new Patient(patient)),date_(date)
 
 {
-	
-	 Patient* patientTest = medecin.chercherPatient(patient.getNumeroAssuranceMaladie());
-	if (patientTest == nullptr)
+	if (medecin.chercherPatient(patient.getNumeroAssuranceMaladie()));
 	{
-		
+		medecin += patient;
 	}
 	
 }
-//Consultation::Consultation(Medecin& medecin, Patient& patient, const std::string& date)
-//    :date_(date) {
-//    medecin_ = new Medecin(medecin);
-//    patient_=new Patient(patient)
-//    for (size_t i = 0; i < medecin.getPatientsAssocies().size(); i++) {
-//        if (medecin.getPatientsAssocies()[i] == patient_)
-//            break;
-//
-//    }
-//         
-//      medecin.getPatientsAssocies()[medecin.getPatientsAssocies().size()] = patient_;
-//        
-//}
+
 
 
 // TODO : operateur<< pour afficher les informations d'une consultation.

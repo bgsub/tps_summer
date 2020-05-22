@@ -97,13 +97,14 @@ bool GestionnaireMedecins::chargerDepuisFichier(const std::string& nomFichier)
 //! \param medecin Le medecin à ajouter
 bool GestionnaireMedecins:: operator+=(Medecin& medecin)
 {
-	if (!chercherMedecin(medecin.getNumeroLicence()) )
+	if (!chercherMedecin(medecin.getNumeroLicence()))
 	{
-		
+
 		medecins_.push_back(std::make_shared<Medecin>(medecin));
 		return true;
 
 	}
+	else return false;
 }
 
 // TODO: Methode supprimerMedecin doit être remplacée par l'operteur -= Il prend en paramètre le numéro de licence 

@@ -95,16 +95,12 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 bool GestionnairePatients:: operator+=( const Patient&  patient)
 {
 	auto patientTest = std::make_shared<Patient>(patient);
-	for (size_t i = 0; i < patients_.size(); i++)
-	{
-		if (patients_[i] == patientTest)return false;    // utiliser chercher patient
-
-	}
-	if (patients_.size() < NB_PATIENT_MAX)
+	
+	if (patients_.size() < NB_PATIENT_MAX && !chercherPatient(patient.getNumeroAssuranceMaladie()))
 	{
 		patients_.push_back(patientTest);
 		return true;
-		
+
 	}
 	else return false;
 }
@@ -154,7 +150,7 @@ bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 	{
 		// Adapter cette méthode pour utiliser l'opérateur+=
 		Patient patient = Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie);
-		bool succes = operator+=(patient);
+		return operator+=(patient);
 	}
-	else return false;
+	
 }
