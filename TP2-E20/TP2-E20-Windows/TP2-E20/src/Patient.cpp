@@ -1,4 +1,11 @@
-// TODO: Faire l'entête de fichier
+/* ////////////////////////////////////////////////////////////////////////////
+/	TD2 : fichier Patient.cpp                                                 /
+/	travail fait par Bryan junior Ngatshou                     : 1956611      /
+/	                 Alexandra Johanne Bifona Africa		   : 1955711      /
+/                                                                             /
+/	Date de remise : 24 mai 2020 à 23h55                                      /
+/   Description: Implementation de la classe Patient                          /
+*//////////////////////////////////////////////////////////////////////////////
 
 #include "Patient.h"
 #include <iostream>
@@ -16,9 +23,10 @@ Patient::Patient(const std::string& nom, const std::string& dateDeNaissance, con
 }
 
 
-// TODO : La methode afficher doit être remplacée par l’opérateur << 
+
 //! Méthode qui affiche les informations d'un patient
 //! \param stream Le stream dans lequel afficher.
+//! /return le stream.
 std::ostream& operator<<(std::ostream& stream, const Patient& patient) 
 {
 	
@@ -27,14 +35,19 @@ std::ostream& operator<<(std::ostream& stream, const Patient& patient)
 	return stream;
 }
 
-// TODO : Opérateur == qui compare un string avec le numero d'assurance maladie du patient avec patient comme opérande de gauche
+//! Methode qui compare un patient avec un string
+//! \param le nom du patient string qui doit etre comparé
+// return un booleen
 bool Patient:: operator==(std::string numAssMal)
 {
 	return(numeroAssuranceMaladie_ == numAssMal);
 }
 
-// TODO : Opérateur == qui compare le numero d'assurance maladie du patient avec le numero d'assurance comme opérande de gauche.
- bool operator==(std::string numAssMal,   Patient patient)      // pas pareil que la declaration ?
+//! Methode qui compare un patient avec un string
+//! \param le nom  du patient string qui doit etre comparé
+//! \param le le Patient qui doit etre comparé
+// return un booleen
+ bool operator==(const std::string& numAssMal,  Patient patient)      // pas pareil que la declaration ?
 {
 	 return(patient == numAssMal);
 }

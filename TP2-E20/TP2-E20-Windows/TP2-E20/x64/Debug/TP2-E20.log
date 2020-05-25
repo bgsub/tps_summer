@@ -1,3 +1,10 @@
-﻿  GestionnairePatients.cpp
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnairePatients.cpp(156): warning C4715: 'GestionnairePatients::lireLignePatient': not all control paths return a value
+﻿  Consultation.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\Consultation.cpp(19,67): warning C4390: ';': empty controlled statement found; is this the intent?
+  GestionnaireMedecins.cpp
+  Hopital.cpp
+  Medecin.cpp
+  main.cpp
+  Generating Code...
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(56): warning C4702: unreachable code
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\src\GestionnaireMedecins.cpp(67): warning C4715: 'GestionnaireMedecins::chercherMedecin': not all control paths return a value
   TP2-E20.vcxproj -> C:\Users\bryan\Desktop\GitKraken\tps_summer\TP2-E20\TP2-E20-Windows\TP2-E20\x64\Debug\TP2-E20.exe

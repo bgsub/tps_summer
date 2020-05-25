@@ -9,9 +9,8 @@ class Consultation
 {
 public:
     Consultation() = default;
+    //constructeur pas copie de la classe Consultations
 	Consultation(Medecin& medecin, Patient& patient, const std::string& date);
-
-    // TODO : la signature de l'opérateur à surcharger
     // opérateur<< pour afficher 
    friend std::ostream& operator<<(std::ostream& out, const Consultation& consultation);
 

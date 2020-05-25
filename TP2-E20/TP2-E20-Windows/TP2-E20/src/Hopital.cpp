@@ -1,4 +1,11 @@
-// TODO: Faire l'entête de fichier
+/* ////////////////////////////////////////////////////////////////////////////
+/	TD2 : fichier  Hopital.cpp                                                /
+/	travail fait par Bryan junior Ngatshou                     : 1956611      /
+/	                 Alexandra Johanne Bifona Africa		   : 1955711      /
+/                                                                             /
+/	Date de remise : 24 mai 2020 à 23h55                                      /
+/   Description: Implementation de la classe Hopital                          /
+*//////////////////////////////////////////////////////////////////////////////
 
 #include "Hopital.h"
 
@@ -9,19 +16,18 @@ Hopital::Hopital(const std::string& nom, const std::string& adresse):nom_(nom), 
 {
 }
 
-// TODO : chargerBaseDeDonnees(const std::string& nomFichierMedecins, const std::string& nomFichierPatients)
-// Permet de charger les médecins et les patients depuis les fichiers passés en paramètres.
-// Retourne true si les fichiers sont bien chargés , false si non.
+//! methode	qui charge la base de donnees
+//! \parametre string nom du fichier des medecins
+//! \paramtre string nom du fichier des patients
+//! /return un bool
 bool Hopital:: chargerBaseDeDonnees(const std::string& nomFichierMedecins, const std::string& nomFichierPatients)
 {
 	return(gestionnaireMedecins_.chargerDepuisFichier(nomFichierMedecins) && gestionnairePatients_.chargerDepuisFichier(nomFichierPatients));
 }
 
-// TODO : Operateur += qui permet d'ajouter une consultation à la liste consutltations_ 
-// Il prend en parametre une reference vers la consultation a ajouter
-// Il ajoute la consultation et retourne true si le medecin est actif, existe dans le gestionnaire de medecins 
-// et le patient existe dans le gestionnaire de patients.
-// Si non il retourne false.
+//! operater += qui ajoute une consultation dans laliste des consultations
+//! \parametre une reference vers la consultation
+//! /return un bool
 bool Hopital :: operator+=(Consultation& consultation)
 {
 	if (consultation.getMedecin()->getEstActif()  && gestionnaireMedecins_.chercherMedecin(consultation.getMedecin()->getNumeroLicence())
@@ -34,16 +40,16 @@ bool Hopital :: operator+=(Consultation& consultation)
 }
 
 
-// TODO : operater += qui ajoute un médecin au gestionnaire de médecins.
-// Il prend en parametre une reference vers le medecin a ajouter
-// Une seule ligne de code
+//! operater += qui ajoute un médecin au gestionnaire de médecins.
+//! \parametre une reference vers le medecin a ajouter
+//! /return un bool
 bool Hopital:: operator+=( Medecin& medecin)
 {
 	return(gestionnaireMedecins_ += medecin);
 }
-// TODO : operater += qui ajouté un pateint au gestionnaire de patient.
-// Il prend en parametre une reference vers le patient à ajouter
-// Une seule ligne de code
+//! operater += qui ajoute un patient au gestionnairePatients.
+//! \parametre une reference vers le patient a ajouter
+//! /return un bool
 bool Hopital:: operator+=( Patient& patient)
 {
 
@@ -66,14 +72,14 @@ const std::string& Hopital::getAdresse() const
 
 //! Méthode qui retourne le gestionnaire des medecins
 //! \return gestionnaire des medecins
-GestionnaireMedecins& Hopital::getGesionnaireMedecins()
+GestionnaireMedecins& Hopital::getGesionnaireMedecins()          
 {
 	return gestionnaireMedecins_;
 }
 
 //! Méthode qui retourne le gestionnaire des patients
 //! \return gestionnaire des patients
-GestionnairePatients& Hopital::getGestionnairePatients()
+GestionnairePatients& Hopital::getGestionnairePatients()                             
 {
 	return gestionnairePatients_;
 }

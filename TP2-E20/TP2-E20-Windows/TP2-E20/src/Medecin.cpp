@@ -1,4 +1,11 @@
-// TODO: Faire l'entête de fichier
+/* ////////////////////////////////////////////////////////////////////////////
+/	TD2 : fichier Medecin.cpp                                                 /
+/	travail fait par Bryan junior Ngatshou                     : 1956611      /
+/	                 Alexandra Johanne Bifona Africa		   : 1955711      /
+/                                                                             /
+/	Date de remise : 24 mai 2020 à 23h55                                      /
+/   Description: Implementation de la classe Medecin                          /
+*//////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include "Medecin.h"
@@ -15,68 +22,52 @@ Medecin::Medecin(const std::string& nom, const std::string& numeroLicence, Speci
 	, numeroLicence_(numeroLicence)
 	, specialite_(specialite)
 
-{
+{}
 
-
-}
-
-// TODO: Methode ajouterPatient doit être remplacée par l'operateur +=. il prend en paramètre le patient à ajouter
-// Retourne true si l'opération d'ajout est réussi, false si non.
 
 //! Méthode qui ajoute un patient à liste des patients associes au médecin.
+//! grace a une surcharge de l operateur+=
 //! \param Patient patient à ajouter
+//! /return un booleen
 bool Medecin:: operator+=( Patient& patient)
 {
-	/*if (patientsAssocies_.size() < CAPACITE_PATIENTS_INITIALE)
-	{
-		auto patientTest = std::make_shared<Patient>(patient);
-		patientsAssocies_.push_back(std::move(patientTest));
-		return true;
-	}
-	else return false;*/
-
 	if (chercherPatient(patient.getNumeroAssuranceMaladie()) == nullptr)
 	{
-		//Patient* patientTest = new Patient(patient);
 		patientsAssocies_.push_back(&patient);
 		return true;
-
 	}
-	
-
-
+	else return false;
 }
 
 
-// TODO: Methode supprimerPatient doit être remplacée par l'operateur -= Il prend en paramètre le numero d'assurance maladie du patient 
-// Retourne true si l'opération d'ajout est réussi, false si non.
 
-//! Méthode pour supprimer un patient de la liste des patients
-//! \param le nom du patient a supprimer
+//! Méthode qui supprime un patient à liste des patients associes au médecin.
+//! grace a une surcharge de l operateur-=
+//! \param le numero d assurance maladie du patient
+//! /return un booleen
 bool Medecin::operator-=(std::string numAssMal)
 {
 	for (size_t i = 0; i < patientsAssocies_.size(); i++)
 	{
-		if (patientsAssocies_[i]->getNumeroAssuranceMaladie() == numAssMal)
+		if (chercherPatient(numAssMal))
 		{
-
 			for (size_t j = i; j < patientsAssocies_.size() - 1; j++)
 			{
 				patientsAssocies_[j] = patientsAssocies_[j + 1];
 			}
-
 			patientsAssocies_.pop_back();
 			
 
 			return true;
 		}
 	}
-
 	return false;
 }
-// TODO : La methode afficher doit être remplacée par l’opérateur << 
+
 //! Méthode pour afficher les informations du medecin
+//! grace a une surcharge de  l’opérateur << 
 //! \param stream dans lequel on ecrit les informations du medecin
+//! \param Medecin  le medecin qui doit etre afficher
 std::ostream& operator<<(std::ostream& out, const Medecin& medecin) 
 {
 	static const std::string SPECIALITES[] = { "Generaliste",
@@ -108,19 +99,30 @@ std::ostream& operator<<(std::ostream& out, const Medecin& medecin)
 	return out;
 }
 
-// TODO : Opérateur == qui compare un string avec le numéro de la  licence du médecin avec medécin comme opérande de gauche
+
+
+//! Methode qui compare un medecin avec un string
+//! \param le numero de licence(string) du patient qui doit etre comparé
+//! / return un booleen
 bool Medecin:: operator==(std::string numLicence)
 {
 	return(numeroLicence_ == numLicence);
 }
 
-// TODO :  Opérateur ==  qui compare le numéro de la  licence du médecin avec un le numéro de la  licence. Le numéro de licence comme opérande de gauche.
-bool operator==(std::string numLicence,  Medecin medecin)
+//! Methode qui compare un medecin avec un string
+//! \param le numero de license(string) du medecin qui doit etre comparé
+//! \param le medecin (Medecin) qui doit etre comparé
+//! /return un booleen
+bool operator==(const std::string& numLicence,  Medecin medecin)
 {
 	return (medecin==numLicence);
 }
-// TODO : Patient* chercherPatient(const std::string& numeroAssuranceMaladie) : une méthode qui cherche un patient qui retourne un pointeur vers le patient
-// Si non on retourne nullptr
+
+
+//! Methode qui compare un medecin avec un string
+//! \param le numero de license(string) du medecin qui doit etre comparé
+//! \param le medecin (Medecin) qui doit etre comparé
+//! /return un booleen
 Patient* Medecin:: chercherPatient(const std::string& numeroAssuranceMaladie)
 {
 	for (size_t i = 0; i<patientsAssocies_.size(); i++)
@@ -131,6 +133,7 @@ Patient* Medecin:: chercherPatient(const std::string& numeroAssuranceMaladie)
 		}
 	
 	}
+
 	return nullptr;
 }
 //! Méthode qui retourne le nom du medecin

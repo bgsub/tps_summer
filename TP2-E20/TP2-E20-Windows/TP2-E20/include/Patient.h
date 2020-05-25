@@ -9,16 +9,13 @@ class Patient
 public:
     Patient() = default;
     Patient(const std::string& nom, const std::string& dateDeNaissance, const std::string& numeroAssuranceMaladie);
-
-    //void afficher(std::ostream& stream) const;
-
-    // TODO : la signature des opérateur  à surcharger
-   friend std::ostream& operator<< (std::ostream & stream, const  Patient& patient);
+    // operateur<< d affichage 
+   friend std::ostream& operator<< (std::ostream & stream, const  Patient& patient);            
     //opérateur== qui compare un string avec le numéro d'assurance de maladie d'un patient
    bool operator==(std::string numAssMAl);
     // opérateur== qui compare un string avec le numéro d'assurance de maladie d'un patient
-   friend bool operator==(std::string numAssMal,const Patient patient);
-
+   friend bool operator==(const  std::string& numAssMal,  Patient patient);
+ 
     const std::string& getNom() const;
     const std::string& getNumeroAssuranceMaladie() const;
     const std::string& getDateDeNaissance() const;

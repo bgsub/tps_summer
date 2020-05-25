@@ -1,4 +1,11 @@
-﻿// TODO: Faire l'entête de fichier
+﻿/* ////////////////////////////////////////////////////////////////////////////
+/	TD2 : fichier GestionnairePatients.cpp                                    /
+/	travail fait par Bryan junior Ngatshou                     : 1956611      /
+/	                 Alexandra Johanne Bifona Africa		   : 1955711      /
+/                                                                             /
+/	Date de remise : 24 mai 2020 à 23h55                                      /
+/   Description: Implementation de la classe GestionnairePatients             /
+*//////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnairePatients.h"
 #include <fstream>
@@ -8,50 +15,34 @@
 
 //! Constructeur par defaut de la classe GestionnairePatients
 GestionnairePatients::GestionnairePatients()
-	: nbPatients_(0)
-{
-}
+{}
 
-GestionnairePatients::GestionnairePatients(const GestionnairePatients& gestPatients): nbPatients_(gestPatients.nbPatients_)
+
+//! Constructeur par copie de la classe GestionnairePatients
+GestionnairePatients::GestionnairePatients(const GestionnairePatients& gestPatients)
 {
 	patients_.clear();
-	for (size_t i = 0; i < gestPatients.getNbPatients(); i++)
+	for (std::shared_ptr<Patient> patient : gestPatients.patients_)                     // utilisation of for range-based loop
 	{
-		patients_.push_back(std::make_shared<Patient>(*gestPatients.patients_[i]));
+		patients_.push_back(std::make_shared<Patient>(*patient));
 	}
+	
 }
 
-GestionnairePatients& GestionnairePatients::operator=(const GestionnairePatients& gestPatients)
-{
-	if (this != &gestPatients)
-	{
-		//patients_.clear();
-		nbPatients_ = gestPatients.nbPatients_;
-		/*for (size_t i = 0; i < gestPatients.patients_.size(); i++)
-		{
-			auto patientTest = std::make_shared<Patient>(*gestPatients.patients_[i]);
-			patients_.push_back(std::move(patientTest));
-		}*/
-		patients_ = gestPatients.patients_;
 
-	}
 
-	return *this;
-}
-
-//! Méhode qui cherche un patient par son nom
-//! \param nomPatient Le nom du patient à chercher
+//! Méhode qui cherche un patient par son numero d assurance Maladie
+//! \param numeroAssuranceMaladie  du patient à chercher
 //! \return Un pointeur vers le patient. Le pointeur est nullptr si le patient n'existe pas dans la liste des patients.
 Patient* GestionnairePatients::chercherPatient(const std::string& numeroAssuranceMaladie)
 {
-	//for (auto patient : patients_)
-	for(size_t i = 0; i<patients_.size();i++)
+	for (std::shared_ptr<Patient> patient : patients_) //  patient a pour type std:: shared_ptr<Patient>
+	
 	{
-		// À adapter au vecteur et pour l'opérateur==
 	                                                       
-		if (patients_[i].get()->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
+		if (patient->getNumeroAssuranceMaladie() == numeroAssuranceMaladie)
 		{
-			return patients_[i].get() ;
+			return patient.get() ;
 		}
 	}
 
@@ -66,8 +57,7 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 	std::ifstream fichier(nomFichier);
 	if (fichier)
 	{
-		// À adapter au vecteur
-		patients_.clear();
+		patients_.clear();               // on supprime les elements nullptr initialisé lors de la constrution je crois
 		std::string ligne;
 		while (getline(fichier, ligne))
 		{
@@ -86,15 +76,14 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 	return false;
 }
 
-// TODO: Methode ajouterPatientdoit être remplacée par l'operteur +=. il prend en paramètre une référence vers le patient à ajouter
-// Retourne true si l'opération d'ajout est réussi, false si non.
 
 //! Méthode qui ajoute un patient à la liste des patients
+//! grace  à une surcharge de l'opérateur+=
 //! \param patient Le patient à ajouter
 //! \return       Un bool qui indique si l'opération a bien fonctionnée
 bool GestionnairePatients:: operator+=( const Patient&  patient)
 {
-	auto patientTest = std::make_shared<Patient>(patient);
+	std::shared_ptr<Patient> patientTest = std::make_shared<Patient>(patient);
 	
 	if (patients_.size() < NB_PATIENT_MAX && !chercherPatient(patient.getNumeroAssuranceMaladie()))
 	{
@@ -105,18 +94,19 @@ bool GestionnairePatients:: operator+=( const Patient&  patient)
 	else return false;
 }
 
-// TODO : La methode afficher  doit être remplacée L’opérateur << 
+
 //! Méthode pour afficher la liste des patients
+//! grace  à une surcharge de l'opérateur<<
 //! \param stream Le stream dans lequel afficher
+//! / return le stream
 std::ostream& operator<<(std::ostream& stream,const GestionnairePatients& gestPatients)
 {
-	for (size_t i = 0; i < gestPatients.getNbPatients(); i++)
-	{
-		stream << *(gestPatients.patients_[i]);
-		stream << '\n';
-	
+	for(std::shared_ptr<Patient> patient : gestPatients.patients_) // patient est de type shared_ptr<Patient>
+	{ 
+		stream << *(patient);  // on affiche les patients grace  a l operateur<< surcharger
+		stream << '\n';   
+
 	}
-	//stream << gestPatients.getNbPatients();  // juste pour verifier, doit etre enlever
 	return stream;
 }
 
@@ -148,9 +138,8 @@ bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 
 	if (stream >> quoted(nomPatient) >> quoted(anneeDeNaissance) >> quoted(numeroAssuranceMaladie))
 	{
-		// Adapter cette méthode pour utiliser l'opérateur+=
-		Patient patient = Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie);
-		return operator+=(patient);
+	
+		return operator+=(Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie));
 	}
 	
 }

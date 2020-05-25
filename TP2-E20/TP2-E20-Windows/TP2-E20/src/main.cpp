@@ -366,7 +366,7 @@ int main()
 	medecinExistant = hopital.getGesionnaireMedecins().chercherMedecin("tt1234");
 	tests.push_back(!(hopital += *medecinExistant) && tailleInitialeMedecins == hopital.getGesionnaireMedecins().getNbMedecins()
 		&& (hopital += medecinTest) && (tailleInitialeMedecins + 1 == hopital.getGesionnaireMedecins().getNbMedecins()));
-	bool test = tailleInitialeMedecins + 1 == hopital.getGesionnaireMedecins().getNbMedecins();
+	
 	
 	// Tester l'ajout d'un patient (operator+=)
 	size_t tailleInitialePatients = hopital.getGestionnairePatients().getNbPatients();

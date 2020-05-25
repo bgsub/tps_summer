@@ -15,25 +15,19 @@ public:
     Hopital(const std::string& nom, const std::string& adresse);
 
     bool chargerBaseDeDonnees(const std::string& nomFichierMedecins, const std::string& nomFichierPatients);
-    
-    //TODO : la signature des opérateurs à surcharger
     // opérateur+= qui ajoute une instance de Consultation
     bool operator+=( Consultation& patient);
     // opérateur+= qui ajoute une instance de Medecin
     bool operator+=( Medecin& patient);
     // opérateur+= qui ajoute une instance de Patient
     bool operator+=( Patient& patient);
-
-
     const std::string& getNom() const;
     const std::string& getAdresse() const;
-    GestionnaireMedecins& getGesionnaireMedecins();
+    GestionnaireMedecins& getGesionnaireMedecins();    
     GestionnairePatients& getGestionnairePatients();
 
-    // TODO : la signature de getConsultations()
+    // getConsultations()
     const std::vector <std:: shared_ptr<Consultation>> & getConsultations() const;
-
-
     void setNom(const std::string& nom);
     void setAdresse(const std::string& adresse);
 
