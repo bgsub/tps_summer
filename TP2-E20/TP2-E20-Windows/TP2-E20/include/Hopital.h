@@ -25,6 +25,7 @@ public:
     const std::string& getAdresse() const;
     GestionnaireMedecins& getGesionnaireMedecins();    
     GestionnairePatients& getGestionnairePatients();
+     
 
     // getConsultations()
     const std::vector <std:: shared_ptr<Consultation>> & getConsultations() const;
