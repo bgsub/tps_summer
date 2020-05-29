@@ -13,7 +13,7 @@
 
 //! constructeur de la classe Consultations
 //! ajoute un patient dans la liste de patients associes au medecin
-Consultation::Consultation(Medecin& medecin, Patient& patient, const std::string& date):medecin_(new Medecin (medecin)), patient_(new Patient(patient)),date_(date)
+Consultation::Consultation(Medecin& medecin,  Patient& patient, const std::string& date):medecin_(&medecin), patient_(&patient),date_(date)
 
 {
 	if (medecin.chercherPatient(patient.getNumeroAssuranceMaladie()));
