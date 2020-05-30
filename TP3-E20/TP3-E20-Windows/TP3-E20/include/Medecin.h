@@ -1,3 +1,4 @@
+
 #ifndef MEDECIN_H
 #define MEDECIN_H
 
@@ -5,9 +6,10 @@
 #include <string>
 #include "Patient.h"
 #include <vector>
+#include "personnel.h"
 
 //TODO : Cette classe hérite de la classe Personnel
-class Medecin
+class Medecin : public Personnel
 {
 public:
     enum class Specialite
@@ -24,13 +26,13 @@ public:
     };
 
     Medecin() = default;
-    Medecin(const std::string& nom, const std::string& numeroLicence, Specialite specialite);
+    Medecin(const std::string& nom, const std::string& id, Specialite specialite);
 
     bool operator+=(Patient* patient);
     bool operator-=(const std::string& numeroAssuranceMaladiePatient);
 
     //Surchage de la méthode afficher. Elle doit être déclarée virtuelle ici aussi.
-    void afficher(std::ostream& stream) const;
+    virtual std::ostream& afficher(std::ostream& stream) const override;
 
     Patient* chercherPatient(const std::string& numeroAssuranceMaladie);
     void incrementNombreConsultations();
@@ -42,37 +44,31 @@ public:
 
     //TODO : des getters et des setters peuvent être ajoutés ou enlevés si nécessaire
 
-    const std::string& getNom() const;
-    const std::string& getNumeroLicence() const;
     bool getEstActif() const;
     const Specialite getSpecialite() const;
     const size_t getNombrePatientsAssocies() const;
 
     const std::vector<Patient*>& getPatientsAssocies() const;
 
-    void setNom(const std::string& nom);
-    void setNumeroLicence(const std::string& numeroLicence);
     void setEstActif(bool estActif);
     void setSpecialite(Specialite specialite);
-
+    size_t getNombreConsultations() const;
 
     static constexpr size_t SALAIRE_DE_BASE_MEDECIN = 100000;
 
-//TODO : 
-//Certains attributs devraient êtres enlevés.
-//D'autres attributs doivent être ajoutés. Voir l'énoncé
-//Les attributs de cette classe doivent être accessibles aux classes dérivées de cette classe.
-//La méthode trouverIndexPatient est une méthode privée
+    //TODO : 
+    //Certains attributs devraient êtres enlevés.
+    //D'autres attributs doivent être ajoutés. Voir l'énoncé
+    //Les attributs de cette classe doivent être accessibles aux classes dérivées de cette classe.
+protected:
+    // Attributs
+    size_t nombreConsultations_;
+    Specialite specialite_;
+    std::vector<Patient*> patientsAssocies_;
+
+    //La méthode trouverIndexPatient est une méthode privée
 private:
     int trouverIndexPatient(const std::string& numeroAssuranceMaladie);
-
-    // Attributs
-    std::string nom_;
-    std::string numeroLicence_;
-    Specialite specialite_;
-    bool estActif_ = true;
-
-    std::vector<Patient*> patientsAssocies_;
 };
 
 #endif // MEDECIN_H

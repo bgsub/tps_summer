@@ -8,7 +8,6 @@ C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\Consultation.cpp(28,3): error C2059: syntax error: '<<'
   ConsultationEnlignePhysique.cpp
 c1xx : fatal error C1083: Cannot open source file: 'src\ConsultationEnlignePhysique.cpp': No such file or directory
-  Etudiant.cpp
   GestionnairePatients.cpp
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\GestionnairePatients.cpp(79,19): warning C4189: 'patient': local variable is initialized but not referenced
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\GestionnairePatients.cpp(134,11): error C2059: syntax error: ')'
@@ -51,11 +50,9 @@ C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\GestionnairePersonnels.cpp(179,26): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
   Hopital.cpp
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\include\Hopital.h(8,10): fatal error C1083: Cannot open include file: 'GestionnaireMedecins.h': No such file or directory
+  MedecinResident.cpp
   Patient.cpp
-  Medecin.cpp
-C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\Medecin.cpp(61,19): warning C4189: 'patient': local variable is initialized but not referenced
   main.cpp
-  PatientEtudiant.cpp
   Personnel.cpp
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\Personnel.cpp(35,3): error C2059: syntax error: '<<'
 C:\Users\bryan\Desktop\GitKraken\tps_summer\TP3-E20\TP3-E20-Windows\TP3-E20\src\Personnel.cpp(38,1): error C2143: syntax error: missing ';' before '}'

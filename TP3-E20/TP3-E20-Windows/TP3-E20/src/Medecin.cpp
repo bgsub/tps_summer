@@ -7,8 +7,12 @@ constexpr int PATIENT_INEXSISTANT = -1;
 
 //TODO : Constructeur par paramètre pour intialiser les attributs de la classe. 
 // Il utilise le constructeur de la classe Personnel
+Medecin::Medecin(const std::string& nom, const std::string& id, Specialite specialite)
+	:Personnel(nom, id), specialite_(specialite), nombreConsultations_(0)
 
+{
 
+}
 //! Operateur qui ajoute un patient à la liste des patients
 //! \param patient Le patient à ajouter
 //! \return       Un bool qui indique si l'opération a bien fonctionnée
@@ -40,7 +44,7 @@ bool Medecin::operator-=(const std::string& numeroAssuranceMaladiePatient)
 }
 
 //TODO : méthode Afficher
-void Medecin::afficher(std::ostream& stream) const
+std::ostream& Medecin::afficher(std::ostream& stream) const
 {
 	static const std::string SPECIALITES[] = { "Generaliste",
 												"Cardiologue",
@@ -54,14 +58,15 @@ void Medecin::afficher(std::ostream& stream) const
 	std::string specialite = SPECIALITES[index];
 
 	//TODO : Afficher les informations du médecin liées à la classe Personnel
-
+	Personnel::afficher(stream);
 	stream << "\n\tSpecialite: " << specialite
 		<< (patientsAssocies_.empty() ? "\n\tAucun patient n'est suivi par ce medecin." : "\n\tPatients associes:");
 
 	for (const auto& patient : patientsAssocies_)
 	{
 		stream << "\n\t\t";
-		//TODO : Afficher les informations du Patient
+		patient->afficher(stream);
+		return stream;
 	}
 }
 
@@ -83,11 +88,44 @@ Patient* Medecin::chercherPatient(const std::string& numeroAssuranceMaladie)
 
 //TODO : Méthode incrementNombreConsultations 
 // Incrementer le nombre de consultaions
-
+void Medecin::incrementNombreConsultations()
+{
+	nombreConsultations_++;
+}
 //TODO : Méthode getSalaireAnnuel
+double Medecin::getSalaireAnnuel() const
+{
+	return(SALAIRE_DE_BASE_MEDECIN + (nombreConsultations_ * getPrixConsultation()));
+}
 // le salaire annuel = salaire de base du médecin + nombre de consultations * le prix de consultation
 
 //TODO : Méthode getPrixConsultation
+double Medecin::getPrixConsultation() const
+{
+
+	switch (specialite_)
+	{
+	case Medecin::Specialite::Generaliste:return  60;
+		break;
+	case Medecin::Specialite::Cardiologue:return 120;
+		break;
+	case Medecin::Specialite::Dermatologue:return 120;
+		break;
+	case Medecin::Specialite::Gynecologue: return 100;
+		break;
+	case Medecin::Specialite::Pediatre:return 80;
+		break;
+	case Medecin::Specialite::Ophtalmologue: return 100;
+		break;
+	case Medecin::Specialite::Autre:return 60;
+		break;
+	default:
+		throw "La spécialite du médecin n'est pas définie";
+	}
+
+}
+
+
 //Utiliser Switch
 //Cette méthode retourne le prix de la consultation qui dépend de la spécialité du médecin.
 //prix = 100 pour Gynecologue et Ophtalmologue
@@ -96,22 +134,10 @@ Patient* Medecin::chercherPatient(const std::string& numeroAssuranceMaladie)
 //prix = 60 pour Generaliste ou Autre
 //default : throw "La spécialite du médecin n'est pas définie"
 
-//! Méthode qui retourne le nom du medecin
-//! \return le nom du medecin 
-const std::string& Medecin::getNom() const
-{
-
-	return nom_;
-}
 
 
-//! Méthode qui retourne le numero de licence du medecin
-//! \return le numero de licence
-const std::string& Medecin::getNumeroLicence() const
-{
 
-	return numeroLicence_;
-}
+
 
 //! Méthode qui retourne le status du medecin
 //! \return le status du medecin
@@ -120,7 +146,10 @@ bool Medecin::getEstActif() const
 
 	return estActif_;
 }
-
+size_t Medecin::getNombreConsultations() const
+{
+	return nombreConsultations_;
+}
 //! Méthode qui retourne la specialite du medecin
 //! \return la specialite des medecins
 const Medecin::Specialite Medecin::getSpecialite() const
@@ -145,19 +174,6 @@ const std::vector<Patient*>& Medecin::getPatientsAssocies() const
 	return patientsAssocies_;
 }
 
-//! Méthode qui met a jours le nom  du medecin
-//! \pararm  nom  Le nom du médecin
-void Medecin::setNom(const std::string& nom)
-{
-	nom_ = nom;
-}
-
-//! Méthode qui met a jours le numero de licence du medecin
-//! \pararm  numeroLicence  le numero de licence du medecin
-void Medecin::setNumeroLicence(const std::string& numeroLicence)
-{
-	numeroLicence_ = numeroLicence;
-}
 
 //! Méthode qui met a jours le statut  du medecin si il est actif ou non
 //! \pararm  boolean indiquant le  nouveau status du medecin
