@@ -8,7 +8,7 @@
 //! \param patient Le patient qui demande une consultation
 //! \param date    La date de la consultation
 Consultation::Consultation(Medecin& medecin, Patient& patient, const std::string& date) :
-	medecin_(&medecin), patient_(&patient), date_(date)
+	medecin_(&medecin), patient_(&patient), date_(date), prix_(PRIX_DE_BASE)
 {
 }
 
@@ -17,17 +17,17 @@ Consultation::Consultation(Medecin& medecin, Patient& patient, const std::string
 void Consultation::afficher(std::ostream& os) const
 {
 
-	std::string typeConsultation =  //TODO: Chercher le nom de la classe. Elle peut être ConsultationEnligne ou ConsultationPhysique.
-								  //Utiliser typeid().name()
-	std::string typeMedecin =  //TODO: Chercher le nom de la classe.Elle peut être Medecin ou MedecinResident.
-		                        //Utiliser typeid().name() ;
-	std::string typePatient = //TODO: Chercher le nom de la classe. Elle peut être Patient ou PatientEtudiant.
-		                      //Utiliser typeid().name()
+	std::string typeConsultation = typeid(*this).name();//TODO: Chercher le nom de la classe. Elle peut être ConsultationEnligne ou ConsultationPhysique.
+								  //Utiliser typeid().name();
+	std::string typeMedecin = typeid(*this->medecin_).name(); //TODO: Chercher le nom de la classe.Elle peut être Medecin ou MedecinResident.
+								//Utiliser typeid().name() ;
+	std::string typePatient = typeid(*this->patient_).name();//TODO: Chercher le nom de la classe. Elle peut être Patient ou PatientEtudiant.
+							  //Utiliser typeid().name()
 	os << "Consultation: "
-		<< "\n\tType: " << //Extraire le nom de la classe du string typeConsultation
-		<< "\n\t\t" << //Extraire le nom de la classe du string typeMedecin << ": " << // afficher Id du medecin
-		<< "\n\t\t" << //Extraire le nom de la classe du string typePatient  << ": " << // afficher le numero d'assurance maladie du patient
-		<< "\n\t\t" << "Date de consultation: " << //Afficher date_
+		<< "\n\tType: " << typeConsultation.erase(0, 6)//Extraire le nom de la classe du string typeConsultation
+		<< "\n\t\t" << typeMedecin.erase(0, 6) << ": " << medecin_->getId()// afficher Id du medecin
+		<< "\n\t\t" << typePatient.erase(0, 6) << ": " << patient_->getNumeroAssuranceMaladie()
+		<< "\n\t\t" << "Date de consultation: " << date_;//Afficher date_
 }
 
 //! Méthode qui retourne le médecin de la consultation

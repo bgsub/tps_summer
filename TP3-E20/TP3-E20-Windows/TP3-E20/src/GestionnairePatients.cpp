@@ -63,9 +63,18 @@ bool GestionnairePatients::operator+=(Patient* patient)
 		{
 			return false;
 		}
+		if (dynamic_cast<PatientEtudiant*>(patient))
+		{
+			patients_.push_back(std::make_shared<PatientEtudiant>(*dynamic_cast<PatientEtudiant*>(patient)));
+
+		}
 
 		// TODO : vérifier le type de patient. S'il est PatientEtudiant, faire une conversion dynamique avant de l'ajouter 
 		// au vecteur patients_
+		else
+		{
+			patients_.push_back(std::make_shared<Patient>(*patient)); /// dynamic pas besoin ca c est deja un patient*
+		}
 		return true;
 	}
 	return false;
@@ -78,7 +87,7 @@ std::ostream& operator<<(std::ostream& os, const GestionnairePatients& gestionna
 {
 	for (const auto& patient : gestionnairePatients.patients_)
 	{
-		// TODO : afficher les informations du patient
+		patient->afficher(os);
 		os << '\n';
 	}
 
@@ -97,6 +106,23 @@ const std::vector<std::shared_ptr<Patient>>& GestionnairePatients::getPatients()
 //Chercher les Patients étudiants parmis tous les patients 
 //Retourner un vecteur de PatientEtudiant*
 
+std::vector<PatientEtudiant*> GestionnairePatients::getPatientsEtudiants()const
+{
+	//  si parmis la liste de patients, le patient st un patientEtudiant, 
+	   // ---  le patientetudiant est un smart ptr, il faut donc le dynamic-cast pour le transformer en pointer de PatientEtudiant*
+
+
+	//alors on l ajoute au vectTemp
+	std::vector<PatientEtudiant*> vectTemp;
+	//std::shared_ptr<Patient> patient;
+	for (const auto& patient : patients_) {
+		if (dynamic_cast<PatientEtudiant*>(patient.get()))
+		{
+			vectTemp.push_back(dynamic_cast<PatientEtudiant*>(patient.get()));
+		}
+	}
+	return vectTemp;
+}
 
 //! Méthode qui retourne le nombre des patients dans la liste
 //! \return Le nombre de patients dans la liste
@@ -108,6 +134,10 @@ size_t GestionnairePatients::getNbPatients() const
 // TODO : Méthode getNbPatientsEtudiants
 // Retourner le nombre de patients étudiants
 
+size_t GestionnairePatients::getNbPatientsEtudiants() const
+{
+	return getPatientsEtudiants().size();
+}
 
 //! Méthode qui lit les attributs d'un patient
 //! \param ligne  Le string qui contient les attributs
@@ -126,13 +156,35 @@ bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 	{
 		//TODO : 
 		//1- Utiliser to_enum pour convertir indexTypePatient à l'enum TypePatient : to_enum<GestionnairePatients::TypePatient, int>(variable)
+		TypePatient typePatient = to_enum<GestionnairePatients::TypePatient, int>(indexTypePatient);
 		//2- Si le patient est de type Patient. Ajouter un objet Patient en utilisant l'opérateur +=
+
 		//3- Si le patient est de type PatientEtudiant: 
 		//    - Lire son matricule puis son établissement
 		//    - Ajouter un objet PatientEtudiant en utilisant l'opérateur +=
 		// 
-		switch () {
-		
+		if (typePatient == TypePatient::Patient)
+
+		{
+
+			return *this += (std::make_shared<Patient>(Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie))).get();
+
+		}
+
+		if (typePatient == TypePatient::PatientEtudiant)
+		{
+			if (stream >> std::quoted(matricule) >> std::quoted(etablissement))
+			{
+				return  *this += (std::make_shared<PatientEtudiant>(PatientEtudiant(nomPatient, anneeDeNaissance, numeroAssuranceMaladie, matricule, etablissement))).get();
+			}
+		}
+
+
+
+
+
+		else {
+
 			assert(false); // ne devrait pas passer avec le fichier fourni
 		}
 

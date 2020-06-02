@@ -32,7 +32,7 @@ public:
     bool operator-=(const std::string& numeroAssuranceMaladiePatient);
 
     //Surchage de la méthode afficher. Elle doit être déclarée virtuelle ici aussi.
-    virtual std::ostream& afficher(std::ostream& stream) const override;
+    virtual void afficher(std::ostream& stream) const override;
 
     Patient* chercherPatient(const std::string& numeroAssuranceMaladie);
     void incrementNombreConsultations();

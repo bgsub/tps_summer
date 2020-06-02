@@ -9,7 +9,7 @@
 
 
 //TODO : Classe qui hérite de la classe Etudiant et la classe Patient
-class PatientEtudiant : public Patient, Etudiant                    // un patientEtudiant est un patient avant d etre un etudiant. (polymorphisme) 
+class PatientEtudiant : public Patient, Etudiant           // un patientEtudiant est un patient avant d etre un etudiant. (polymorphisme) 
 {
 public:
     PatientEtudiant() = default;
@@ -23,7 +23,7 @@ public:
 
 
     //TODO : surcharge de la méthode afficher
-    std::ostream& afficher(std::ostream& stream) const  override;
+    void afficher(std::ostream& stream) const  override;
 
 
 

@@ -18,12 +18,12 @@ public:
     void afficher(std::ostream& os) const;
 
     // TODO calculerPrix méthode virtuelle pure qui retourne le prix de la consultation. A ne pas implémenter
-    const double calculerPrix() const;
+    virtual const double calculerPrix() const = 0;
 
     const double PRIX_DE_BASE = 50;
 
-//TODO : ces attributs doivent être accessibles par les classes dérivées de cette class
-private:
+    //TODO : ces attributs doivent être accessibles par les classes dérivées de cette class
+protected:
     Medecin* medecin_;
     Patient* patient_;
     std::string date_;

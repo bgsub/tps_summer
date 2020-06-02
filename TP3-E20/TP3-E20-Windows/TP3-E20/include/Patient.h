@@ -14,7 +14,7 @@ public:
     friend bool operator==(const std::string& nom, const Patient& patient);
 
     //TODO méthode virtuelle
-    virtual std::ostream& afficher(std::ostream& stream) const;
+    virtual void afficher(std::ostream& stream) const;
 
     const std::string& getNom() const;
     const std::string& getNumeroAssuranceMaladie() const;

@@ -16,7 +16,7 @@ public:
 
 
     //TODO : méthode virtuelle pure.
-    virtual std::ostream& afficher(std::ostream& stream) const = 0;
+    virtual void afficher(std::ostream& stream) const = 0;
 
 
 

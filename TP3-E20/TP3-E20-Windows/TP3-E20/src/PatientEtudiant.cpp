@@ -16,7 +16,7 @@ PatientEtudiant::PatientEtudiant(const std::string& nom, const std::string& date
 //Puis affichier " | "
 //Puis afficher les informations liées à l'étudiant
 //Puis afficher " | Taux de rabais: " suivi du tauxRabais_
-std::ostream& PatientEtudiant::afficher(std::ostream& stream)  const {
+void PatientEtudiant::afficher(std::ostream& stream)  const {
 
 
 
@@ -24,7 +24,7 @@ std::ostream& PatientEtudiant::afficher(std::ostream& stream)  const {
     stream << " | ";
     Etudiant::afficher(stream);
     stream << " | Taux de rabais: " << getTauxRabais();
-    return stream;
+
 }
 
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PERSONNEL_H
 #define PERSONNEL_H
 
@@ -17,7 +18,7 @@ public:
 	bool operator==(const std::string& id) const;
 
 	// TODO : méthode virtuelle
-	virtual std::ostream& afficher(std::ostream& stream) const;
+	virtual void afficher(std::ostream& stream) const;
 
 	//TODO : méthode virtuelle pure à ne pas implémenter dans cette classe
 	virtual double getSalaireAnnuel() const = 0;

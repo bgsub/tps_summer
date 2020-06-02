@@ -8,7 +8,7 @@ class MedecinResident : public Medecin, Etudiant
 {
 public:
 	MedecinResident(const std::string& nom, const std::string& dateNaissance, const std::string& matricule, const std::string& ecole, const std::string& id, Specialite specialite);
-	std::ostream& afficher(std::ostream& stream) const override;
+	void afficher(std::ostream& stream) const override;
 
 	static constexpr size_t SALAIRE_DE_BASE_MEDECIN_RESIDENT = 50000;
 
@@ -25,4 +25,4 @@ public:
 
 
 
-#endif // MEDECINRESIDENT_H#endif // MEDECINRESIDENT_H
+#endif // MEDECINRESIDENT_H

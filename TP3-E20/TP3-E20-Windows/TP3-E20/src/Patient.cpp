@@ -31,14 +31,14 @@ bool operator==(const std::string& numeroAssuranceMaladie, const Patient& patien
 
 //! Méthode qui affiche les informations d'un patient
 //! \param stream Le stream dans lequel afficher.
-std::ostream& Patient::afficher(std::ostream& stream)  const
+void Patient::afficher(std::ostream& stream)  const
 {
 	stream << "Patient: ";
 	std::string typePatient = typeid(*this).name();// TODO: Chercher le nom de la classe. Il peut être Patient ou PatientEtudiant. Utiliser typeid().name()
 	stream << "\n\tType: " << typePatient.erase(0, 6); //Extraire le nom de la classe du string typePatient;
 	stream << "\n\tNom: " << nom_ << " | Date de naissance: " << dateDeNaissance_
 		<< " | Numero d\'assurance maladie: " << numeroAssuranceMaladie_;
-	return stream;
+
 }
 
 //! Méthode qui retourne le nom du patient

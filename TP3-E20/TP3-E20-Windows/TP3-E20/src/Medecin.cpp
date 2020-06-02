@@ -44,7 +44,7 @@ bool Medecin::operator-=(const std::string& numeroAssuranceMaladiePatient)
 }
 
 //TODO : méthode Afficher
-std::ostream& Medecin::afficher(std::ostream& stream) const
+void Medecin::afficher(std::ostream& stream) const
 {
 	static const std::string SPECIALITES[] = { "Generaliste",
 												"Cardiologue",
@@ -66,7 +66,7 @@ std::ostream& Medecin::afficher(std::ostream& stream) const
 	{
 		stream << "\n\t\t";
 		patient->afficher(stream);
-		return stream;
+
 	}
 }
 

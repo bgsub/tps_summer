@@ -56,12 +56,14 @@ bool GestionnairePersonnels::operator+=(Personnel* personnel)
 	if (personnel && !chercherPersonnel(personnel->getId()))
 	{
 		//TODO : vérifier si personnel est un MedecinResidant. Conversion dynamique
-		if (....) {
+		if (dynamic_cast<MedecinResident*>(personnel)) {
 			//TODO : Ajouter un objet de type MedecinResident au personnels_. Conversion dynamique
+			personnels_.push_back(std::make_shared<MedecinResident>(*dynamic_cast<MedecinResident*>(personnel)));
 		}
 		//TODO : vérifier si personnel est un Medecin. Conversion dynamique
-		else if (...) {
+		else if (dynamic_cast<Medecin*>(personnel)) {
 			//TODO : Ajouter un objet de type Medecin au personnels_. Conversion dynamique
+			personnels_.push_back(std::make_shared<Medecin>(*dynamic_cast<Medecin*>(personnel)));
 		}
 		else {
 			assert(false);
@@ -95,7 +97,7 @@ std::ostream& operator<<(std::ostream& os, const GestionnairePersonnels& gestion
 {
 	for (const auto& personnel : gestionnairePersonnels.personnels_)
 	{
-		//TODO : Afficher les information d'un personnel
+		personnel->afficher(os);
 		os << '\n';
 	}
 
@@ -113,25 +115,59 @@ const std::vector<std::shared_ptr<Personnel>>& GestionnairePersonnels::getPerson
 //Hint : conversion dynamique
 //Chercher les médecins  parmis tous les personnels 
 //Retourner un vecteur de Medecin*
-
+std::vector<Medecin*> GestionnairePersonnels::getMedecins() const
+{
+	std::vector<Medecin*> vectTemp;
+	for (const auto& personnel : personnels_)
+	{
+		if (dynamic_cast<Medecin*>(personnel.get()))
+		{
+			vectTemp.push_back(dynamic_cast<Medecin*>(personnel.get()));
+		}
+	}
+	return vectTemp;
+}
 
 //TODO : Méthode getMedecinsResidents
 //Hint : conversion dynamique
 //Chercher les médecins résidents  parmis tous les personnels 
 //Retourner un vecteur de MedecinResident*
+std::vector<MedecinResident*> GestionnairePersonnels::getMedecinsResidents() const
+{
+	std::vector<MedecinResident*> vectTemp;
+	for (const auto& personnel : personnels_)
+	{
+		if (dynamic_cast<MedecinResident*>(personnel.get()))
+		{
+			vectTemp.push_back(dynamic_cast<MedecinResident*>(personnel.get()));
+		}
+	}
+	return vectTemp;
+}
+
 
 
 // TODO : Méthode getNbPersonnels
 // Retourner le nombre des personnels
+size_t GestionnairePersonnels::getNbPersonnels() const
+{
+	return personnels_.size();
+}
 
 // TODO : Méthode getNbMedecins
 // Retourner le nombre de medecins
-
+size_t GestionnairePersonnels::getNbMedecins() const
+{
+	return getMedecins().size();
+}
 
 // TODO : Méthode getNbMedecinsResidents
 // Retourner le nombre de medecins résidents
 
-
+size_t GestionnairePersonnels::getNbMedecinsResidents() const
+{
+	return getMedecinsResidents().size();
+}
 
 //! Méthode qui lit les attributs d'un personnel
 //! \param ligne  Le string qui contient les attributs
@@ -152,6 +188,7 @@ bool GestionnairePersonnels::lireLignePersonnel(const std::string& ligne)
 	{
 		//TODO : 
 		//1- Utiliser to_enum pour convertir indexTypePersonnel à l'enum TypePersonnel : to_enum<GestionnairePersonnels::TypePersonnel, int>(variable)
+		TypePersonnel typepPersonnel = to_enum<GestionnairePersonnels::TypePersonnel, int>(indexTypePersonnel);
 		//2- Si le personnel est de type Medecin. 
 		//	  - Lire indexPecialite
 		//	  - Ajouter un objet de type Medecin en utilisant l'opérateur +=
@@ -159,11 +196,33 @@ bool GestionnairePersonnels::lireLignePersonnel(const std::string& ligne)
 		//    - Lire sa date de naissance, son matricule, son établissement et  indexSpecialite
 		//    - Ajouter un objet de type MedecinResidant en utilisant l'opérateur +=
 		// 
-		switch () {
+
+		switch (typepPersonnel)
+		{
+		case GestionnairePersonnels::TypePersonnel::Medecin:
+			if (stream >> indexSpecialite)
+			{
+				Medecin::Specialite specialite = to_enum<Medecin::Specialite, int>(indexSpecialite);
+				auto medecinTest = std::make_shared<Medecin>(Medecin(nomPersonnel, id, specialite));
+				return *this += (medecinTest.get());
+
+			}
+			break;
+		case GestionnairePersonnels::TypePersonnel::MedecinResident:
+			if (stream >> std::quoted(dateDeNaissance) >> std::quoted(matricule) >> std::quoted(etablissement) >> indexSpecialite)
+			{
+				Medecin::Specialite specialite = to_enum<Medecin::Specialite, int>(indexSpecialite);
+				auto medecinResTest = std::make_shared<MedecinResident>(MedecinResident(nomPersonnel, dateDeNaissance, matricule, etablissement, id, specialite));
+				return *this += (medecinResTest.get());
+
+			}
+			break;
 
 		default:
-			assert(false); // ne devrait pas passer avec le fichier fourni
+			assert(false);
 		}
+
+
 	}
 
 	return false;

@@ -13,10 +13,10 @@ Etudiant::Etudiant(const std::string& nom, const std::string& dateDeNaissance, c
 
 //! Méthode qui affiche les informations de l'étudiant
 //! \param os Le stream dans lequel afficher
-std::ostream& Etudiant::afficher(std::ostream& stream) const
+void Etudiant::afficher(std::ostream& stream) const
 {
     stream << "Matricule: " << matricule_ << "\n\tEtablissement: " << etablissement_; //// je vois pas ce que je dois ajouter; est ce que je dois remplacer stream par cout??////
-    return stream;
+
 }
 
 

@@ -29,8 +29,9 @@ public:
 	const std::vector<std::shared_ptr<Personnel>>& getPersonnels() const;
 
 	//TODO : Méthode constante getMedecins retourne un vecteur de Medecin*
+	std::vector<Medecin*> getMedecins() const;
 	//TODO : Méthode constante getMedecinsResidents retourne un vecteur de MedecinResidant*
-
+	std::vector<MedecinResident*> getMedecinsResidents() const;
 	size_t getNbPersonnels() const;
 	size_t getNbMedecins() const;
 	size_t getNbMedecinsResidents() const;

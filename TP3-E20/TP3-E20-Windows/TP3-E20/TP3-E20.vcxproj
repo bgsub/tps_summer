@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConsultationPhysique.cpp" />
     <ClCompile Include="src\Consultation.cpp" />
     <ClCompile Include="src\ConsultationEnligne.cpp" />
-    <ClCompile Include="src\ConsultationEnlignePhysique.cpp" />
     <ClCompile Include="src\Etudiant.cpp" />
     <ClCompile Include="src\GestionnairePatients.cpp" />
     <ClCompile Include="src\GestionnairePersonnels.cpp" />
@@ -34,9 +34,9 @@
     <ClCompile Include="src\Personnel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConsultationPhysique.h" />
     <ClInclude Include="include\Consultation.h" />
     <ClInclude Include="include\ConsultationEnligne.h" />
-    <ClInclude Include="include\ConsultationEnlignePhysique.h" />
     <ClInclude Include="include\Etudiant.h" />
     <ClInclude Include="include\GestionnairePersonnels.h" />
     <ClInclude Include="include\Hopital.h" />

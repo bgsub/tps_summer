@@ -11,11 +11,11 @@ MedecinResident::MedecinResident(const std::string& nom, const std::string& date
 {
 
 }
-std::ostream& MedecinResident::afficher(std::ostream& stream) const {
+void MedecinResident::afficher(std::ostream& stream) const {
 	Medecin::afficher(stream);
 	stream << "\n\t";
 	Etudiant::afficher(stream);
-	return stream;
+
 }
 // TODO : Méthode afficher
 // 1- Afficher les informations liées à la classe Medecin
