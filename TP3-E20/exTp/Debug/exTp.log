@@ -1,0 +1,13 @@
+﻿  ConsultationEnligne.cpp
+  ConsultationPhysique.cpp
+  Etudiant.cpp
+  GestionnairePatients.cpp
+  Hopital.cpp
+  Medecin.cpp
+  MedecinResident.cpp
+  Patient.cpp
+  PatientEtudiant.cpp
+  main.cpp
+  Generating Code...
+C:\Users\bryan\source\repos\exTp\exTp\Hopital.cpp(50): warning C4715: 'Hopital::operator+=': not all control paths return a value
+  exTp.vcxproj -> C:\Users\bryan\source\repos\exTp\Debug\exTp.exe
