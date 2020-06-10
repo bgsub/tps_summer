@@ -12,9 +12,9 @@
 //! \param numeroAssuranceMaladie Le umero d'assurance maladie du patient
 //! \param matricule		      Le matricule de l'étudiant
 //! \param etablissement          L'établissement d'étude de l'étudiant
-PatientEtudiant::PatientEtudiant(const std::string& nom, const std::string& dateDeNaissance, const std::string& numeroAssuranceMaladie,
+PatientEtudiant::PatientEtudiant(const std::string& nom, const std::string& dateDeNaissance, const std::string& numeroAssuranceMaladie, tm dateAdhesion,
 	const std::string& matricule, const std::string& etablissement)
-	:Patient(nom, dateDeNaissance, numeroAssuranceMaladie)
+	:Patient(nom, dateDeNaissance, numeroAssuranceMaladie,dateAdhesion)
 	, Etudiant(nom, dateDeNaissance, matricule, etablissement)
 {
 }

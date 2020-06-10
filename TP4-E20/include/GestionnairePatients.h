@@ -26,12 +26,14 @@ public:
 
     // TODO: Remplacer l'opérateur par la méthode générique ajouterPatient
     // La méthode prend une référence vers l'objet à ajouter
-    bool operator+=(Patient* patient);
+   template<typename T>
+   bool ajouterPatient(const T& patient);
+   // bool operator+=(Patient* patient);
 
     // TODO : Ajouter la méthode supprimerPatient
     // Les paramètres : numero d'assurance Maladie de type string
     // Retourne un booléan
-
+   bool supprimerPatient(const std::string& numeroAssuranceMaladie);
 
     friend std::ostream& operator<<(std::ostream& os, const GestionnairePatients& gestionnairePatient);
 
@@ -39,7 +41,7 @@ public:
 
     // TODO Modifier cette méthode.
     // Elle retourne un vecteur de pointeur shared_ptr vers Patient
-    std::vector<PatientEtudiant*>getPatientsEtudiants() const;
+    std::vector < std::shared_ptr<Patient>> getPatientsEtudiants() const;
 
     size_t getNbPatients() const;
     size_t getNbPatientsEtudiants() const;

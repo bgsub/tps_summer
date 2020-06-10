@@ -80,11 +80,11 @@ bool GestionnairePersonnels::operator+=(Personnel* personnel)
 bool GestionnairePersonnels::operator-=(const std::string& id)
 {
 	//TODO : utiliser la méthode chercherPersonnel
-	if ()
-	{
-		personnels_[indexPersonnel]->setEstActif(false);
-		return true;
-	}
+	//if ()
+	//{
+	//	personnels_[indexPersonnel]->setEstActif(false);
+	//	return true;
+	//}
 
 	return false;
 }

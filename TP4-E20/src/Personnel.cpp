@@ -3,7 +3,7 @@
 #include <typeinfo>
 
 //TODO : Modifier le constructeur pour prendre en considération l'attribut ajouté
-Personnel::Personnel(const std::string& nom, const std::string& id) : nom_(nom), id_(id)
+Personnel::Personnel(const std::string& nom, const std::string& id,tm dateAdhesion) : nom_(nom), id_(id),dateAdhesion_(dateAdhesion)
 {
 }
 
@@ -66,6 +66,14 @@ bool Personnel::getEstActif() const
 	return estActif_;
 }
 
+
+
+tm Personnel::getDateAdhesion() const
+{
+	return dateAdhesion_;
+}
+
+
 //! Méthode qui met a jours le nom  du personnel
 //! \pararm  nom  Le nom du personnel
 void Personnel::setNom(const std::string& nom)
@@ -85,4 +93,8 @@ void Personnel::setId(const std::string& id)
 void Personnel::setEstActif(bool estActif)
 {
 	estActif_ = estActif;
+}
+void Personnel::setDateAdhesion(tm dateAdhesion)
+{
+	dateAdhesion_ = dateAdhesion;
 }

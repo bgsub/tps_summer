@@ -5,6 +5,10 @@
 
 #include <memory>
 #include <utility>
+#include "GestionnairePersonnels.h"
+#include "Hopital.h"
+#include "utils.h"
+#include "GestionnairePatients.h"
 //#include "Personnel.h"
 
 
@@ -23,15 +27,23 @@ public:
 	ils le font dans le moodle mais pas dans les exemples sur internet */
 	//rep : ca dpend des parametres.
 
+
+	////// souvent il y a un constructeur par copie souvent non, je vais t explique quand il faut ou pas en mettre en appel video quand on va en faire
+
 	//ComparateurSecondElementPaire(std::pair<T1, T2> pair1, std::pair<T1, T2> pair2);
 	bool operator() (const std::pair<T1, T2>& pair1, const  std::pair<T1, T2>& pair2)
 	{
 		return(pair1.second < pair2.second);
 	}
+	/// ici c est le coeur du foncteur , je vais aussi t explique si t as pas compris comment ca fonctionne en appel video,
 
+
+
+
+	/// t as des questions ? 
 };
 
-
+   /////// ici c est un foncteur qui compare qlq chose 
 
 
 
@@ -52,10 +64,20 @@ public :
 
 	bool operator()(std::shared_ptr<T> elem)
 	{
-		return(elem < id_);
+		return(elem == id_);
 	}
 private:
 	std::string id_;
+
+
+
+////    Les foncteurs ne sont pas des classe et n appartiennent pas au sens propre à une classe : c est juste des fonction qui agissent comme des operations
+
+
+
+
+
+
 
 };
 // TODO : Foncteur AccumulateurPeriodePersonnel
@@ -91,13 +113,13 @@ template <typename T>
 class  ComparateurTypePatient
 {
 public:
-	ComparateurTypePatient(T objet) : objet_(objet) {}
+	//ComparateurTypePatient(T objet) : objet_(objet) {}
 	bool operator()(std::shared_ptr<Patient> patient)
 	{
-		return (dynamic_cast<Patient*>(objet_)==patient);
+		return (dynamic_cast<T*>( patient.get()));
 	}
 private :
-	T objet_
+	T objet_;
 
 };
 
@@ -108,9 +130,9 @@ private :
 // Utiliser les deux fonctions d�finis dans utils.h convertirStringDate pour convertir une date de sting vers tm et comparerDate pour comparer deux dates.
 class EstDansIntervalleDatesConsultation {
 	EstDansIntervalleDatesConsultation(const tm& date1, const tm& date2) : date1_(date1), date2_(date2) {}
-	bool operator ()(std::shared_ptr<Consultation> cons)
+	bool operator ()(const std::shared_ptr<Consultation>& cons)
 	{
-		tm dateConsultation = convertirStringDate(cons->getDate);
+		tm dateConsultation = convertirStringDate(cons->getDate());
 		if (comparerDate(dateConsultation, date1_) == true && comparerDate(date2_, dateConsultation) == true)
 		{
 			return true;

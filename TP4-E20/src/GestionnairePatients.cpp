@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include "typesafe_enum.h"
+#include "Foncteurs.h"
 
 //! Constructeur par defaut de la classe GestionnairePatients
 GestionnairePatients::GestionnairePatients() : patients_(std::vector<std::shared_ptr<Patient>>())
@@ -18,12 +19,17 @@ GestionnairePatients::GestionnairePatients() : patients_(std::vector<std::shared
 // Le nombre des lignes de code maximale est 4 lignes (sans compter la signature, les lignes vides et les lignes avec accolades)
 Patient* GestionnairePatients::chercherPatient(const std::string& numeroAssuranceMaladie)
 {
-	for (auto& patient : patients_)
+	//for (auto& patient : patients_)
+	//{
+	//	if (*patient == numeroAssuranceMaladie)
+	//	{
+	//		return patient.get();
+	//	}
+	//}
+	auto it = std::find_if(patients_.begin(), patients_.end(), ComparateurEstEgalAvecId<Patient>(numeroAssuranceMaladie));
+	if (it != patients_.end())    // patients_.end() correspond  aune case vide je crois
 	{
-		if (*patient == numeroAssuranceMaladie)
-		{
-			return patient.get();
-		}
+		return  (*it).get();  
 	}
 
 	return nullptr;
@@ -58,25 +64,24 @@ bool GestionnairePatients::chargerDepuisFichier(const std::string& nomFichier)
 // La méthode prend une référence vers l'objet à jouter
 // L'implémentation doit être modifié aussi
 // Le nombre des lignes de code maximale est 6 lignes (sans compter la signature, les lignes vides et les lignes avec accolades)
-bool GestionnairePatients::operator+=(Patient* patient)
+
+template<typename T>
+bool GestionnairePatients::ajouterPatient(const T& patient)
 {
-	if (patient && !chercherPatient(patient->getNumeroAssuranceMaladie())) {
+
+	if (chercherPatient(patient.getNumeroAssuranceMaladie())) {  // cette ligne ci me dérange , ahhahaha
 
 		if (patients_.size() >= NB_PATIENT_MAX)
 		{
 			return false;
 		}
 
-		if (dynamic_cast<PatientEtudiant*>(patient)) {
-			patients_.push_back(std::make_shared<PatientEtudiant>(*dynamic_cast<PatientEtudiant*>(patient)));
-		}
-		else {
-			patients_.push_back(std::make_shared<Patient>(*patient));
-		}
+		patients_.push_back(std::make_shared<T>(patient));
 
 		return true;
 	}
-	return false;
+
+		return false;
 }
 
 // TODO : Ajouter la méthode supprimerPatient
@@ -84,16 +89,25 @@ bool GestionnairePatients::operator+=(Patient* patient)
 // Retourn un booléan
 //Elle utilise les fonctions erase, remove_if et le foncteur ComparateurEstEgalAvecId.
 
+bool GestionnairePatients::supprimerPatient(const std::string& numeroAssuranceMaladie)
+{
+	/*const auto& it = std::remove_if(patients_.begin(), patients_.end(), ComparateurEstEgalAvecId<Patient>(numeroAssuranceMaladie));
+	patients_.erase(it,patients_.end());*/
+	size_t size = patients_.size();
+	patients_.erase(std::remove_if(patients_.begin(), patients_.end(), ComparateurEstEgalAvecId<Patient>(numeroAssuranceMaladie)), patients_.end());
 
+	return (size >= patients_.size());// ici le patients.size() est la nouvelle taille du tableau  " cawline 2 heures pour penser a ca"
+}
 
 std::ostream& operator<<(std::ostream& os, const GestionnairePatients& gestionnairePatients)
 {
 	// Code fourni
-	if constexpr (false)
+	if constexpr (false) //wtf ??
+
 	{
 		for (auto it = gestionnairePatients.patients_.cbegin(); it != gestionnairePatients.patients_.cend(); ++it)
 		{
-			(*it)->afficher(os);
+			(*it)->afficher(os); //  ici it c est un iterator et non un pointer so on le derefence
 			os << '\n';
 		}
 		return os;
@@ -101,6 +115,14 @@ std::ostream& operator<<(std::ostream& os, const GestionnairePatients& gestionna
 	// TODO
 	else
 	{
+		for (const auto& it : gestionnairePatients.patients_)
+		{
+			(it)->afficher(os);   //  ici c est deja un pointer
+			os << '\n';
+		}
+
+		return os;
+
 		//TODO : utiliser une boucle for range-based
 	}
 }
@@ -116,18 +138,10 @@ const std::vector<std::shared_ptr<Patient>>& GestionnairePatients::getPatients()
 // Elle retourne un vecteur de pointeur shared_ptr vers Patient
 // Elle utilise copy_if, back_inserter et le foncteur ComparateurTypePatient
 // Le nombre des lignes de code maximale est 3 lignes (sans compter la signature, les lignes vides et les lignes avec accolades)
-std::vector<PatientEtudiant*> GestionnairePatients::getPatientsEtudiants() const
+std::vector<std::shared_ptr<Patient>> GestionnairePatients::getPatientsEtudiants() const
 {
-	std::vector<PatientEtudiant*> patientsEtudiants;
-	for (const auto& patient : patients_) 
-	{
-		PatientEtudiant* patientEtudiant = dynamic_cast<PatientEtudiant*>(patient.get());
-		if (patientEtudiant) 
-		{
-			patientsEtudiants.push_back(patientEtudiant);
-		}
-	}
-
+	std::vector<std::shared_ptr<Patient>> patientsEtudiants;
+	std::copy_if(patients_.begin(), patients_.end(), back_inserter(patientsEtudiants), ComparateurTypePatient<PatientEtudiant>());
 	return patientsEtudiants;
 }
 
@@ -163,10 +177,10 @@ bool GestionnairePatients::lireLignePatient(const std::string& ligne)
 	{
 		switch (to_enum<GestionnairePatients::TypePatient, int>(indexTypePatient)) {
 		case TypePatient::Patient:
-			return (*this) += std::make_shared<Patient>(Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie)).get();
+			return  ajouterPatient(Patient(nomPatient, anneeDeNaissance, numeroAssuranceMaladie, convertirStringDate(dateAdhesion)))  ;
 		case TypePatient::PatientEtudiant:
 			stream >> std::quoted(matricule) >> std::quoted(etablissement);
-			return (*this) += std::make_shared<PatientEtudiant>(PatientEtudiant(nomPatient, anneeDeNaissance, numeroAssuranceMaladie, matricule, etablissement)).get();
+			return ajouterPatient(PatientEtudiant(nomPatient, anneeDeNaissance, numeroAssuranceMaladie, convertirStringDate(dateAdhesion), matricule, etablissement));
 		default:
 			assert(false); // ne devrait pas se passer avec le fichier fourni
 		}

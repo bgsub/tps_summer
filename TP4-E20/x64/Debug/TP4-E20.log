@@ -1,0 +1,44 @@
+﻿  GestionnairePatients.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\include\Foncteurs.h(95,69): warning C4100: 'pers': unreferenced formal parameter
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\include\Foncteurs.h(95,28): warning C4100: 'somme': unreferenced formal parameter
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePatients.cpp(71,1): error C2682: cannot use 'dynamic_cast' to convert from 'const T &' to 'Patient *'
+          with
+          [
+              T=Patient
+          ]
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePatients.cpp(183): message : see reference to function template instantiation 'bool GestionnairePatients::ajouterPatient<Patient>(const T &)' being compiled
+          with
+          [
+              T=Patient
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\chrono(632): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\chrono(178): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\chrono(610): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::nanoseconds>' being compiled
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePatients.cpp(71,1): error C2682: cannot use 'dynamic_cast' to convert from 'const T &' to 'Patient *'
+          with
+          [
+              T=PatientEtudiant
+          ]
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePatients.cpp(186): message : see reference to function template instantiation 'bool GestionnairePatients::ajouterPatient<PatientEtudiant>(const T &)' being compiled
+          with
+          [
+              T=PatientEtudiant
+          ]
+  GestionnairePersonnels.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(80,60): warning C4100: 'id': unreferenced formal parameter
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(100,18): error C2065: 'gp': undeclared identifier
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(100,46): error C3536: 'it': cannot be used before it is initialized
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(100,49): error C2065: 'gp': undeclared identifier
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(218,29): error C2039: 'trouverIndexPersonnel': is not a member of 'GestionnairePersonnels'
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\include\GestionnairePersonnels.h(8): message : see declaration of 'GestionnairePersonnels'
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(220,30): error C2065: 'personnels_': undeclared identifier
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\GestionnairePersonnels.cpp(222,8): error C2065: 'personnels_': undeclared identifier
+  Hopital.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\Hopital.cpp(115,2): error C2065: 'ééreturn': undeclared identifier
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\Hopital.cpp(115,13): error C2146: syntax error: missing ';' before identifier 'gestionnairePatients_'
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\Hopital.cpp(115,35): error C2676: binary '+=': 'GestionnairePatients' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\Hopital.cpp(189,12): error C3861: 'ajouterConsultation': identifier not found
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\Hopital.cpp(195,12): error C3861: 'ajouterConsultation': identifier not found
+  Medecin.cpp
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\src\Medecin.cpp(16,13): error C2661: 'Personnel::Personnel': no overloaded function takes 2 arguments
+  Generating Code...
