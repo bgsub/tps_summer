@@ -1,0 +1,5 @@
+   
+
+  Réponse à la question bonus:
+
+La différence observée entre la recherche de patient et celle du personnel et dû au fait que les patients se trouvent dansun conteneur de std::vector alors que les personnels se trouvent dans un std:: unordered_map.En effet, le temps de parcours de ce dernier est inférieur à celui du vecteur pour la recherche d'un élément se trouvant dans la même position dans les deux conteneurs. 
