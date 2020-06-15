@@ -33,7 +33,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const GestionnairePersonnels& gestionnairePesonnel);
 
 	//TODO : à adapter au changement du type de l'attribut personnels_
-	std::unordered_map<std::string, std::shared_ptr<Personnel>> getPersonnels() const;
+	const std::unordered_map<std::string, std::shared_ptr<Personnel>>& getPersonnels() const;
 
 	// TODO : Ajouter la méthode générique getPersonnelsAvecType()
 	// Elle retourne unordered_map de string et un pointeur vers le personnel

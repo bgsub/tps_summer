@@ -112,7 +112,7 @@ std::ostream& operator<<(std::ostream& os, const GestionnairePersonnels& gestion
 
 //Methode getPersonnel
 //!Return un unordered_map  de shared_ptr de personnel dont string est la clee 
-std::unordered_map<std::string, std::shared_ptr<Personnel>> GestionnairePersonnels::getPersonnels() const
+const std::unordered_map<std::string, std::shared_ptr<Personnel>>& GestionnairePersonnels::getPersonnels() const
 {
 	return personnels_;
 }
@@ -127,7 +127,7 @@ std::unordered_map<std::string, T*> GestionnairePersonnels::getPersonnelsAvecTyp
 	{
 		if (dynamic_cast<T*>(it.second.get()))
 		{
-			personnelsAvecTypes.insert(std::make_pair(it.first, dynamic_cast<T*>(it.second.get())));  // est ce que je dois utiliser un const_cast
+			personnelsAvecTypes.insert(std::make_pair(it.first, dynamic_cast<T*>(it.second.get())));  
 		}
 	}
 	return personnelsAvecTypes;
@@ -136,7 +136,7 @@ std::unordered_map<std::string, T*> GestionnairePersonnels::getPersonnelsAvecTyp
 //!Return un vecteur de pair de string est shared_ptr<Pesonnel>
 std::vector < std::pair < std::string, std::shared_ptr<Personnel>>> GestionnairePersonnels::getPersonnelsTriesSuivantSalaireAnnuel() const
 {
-	std::vector < std::pair < std::string, std::shared_ptr<Personnel>>> vectTemp (personnels_.begin(), personnels_.end() );
+	std::vector < std::pair < std::string, std::shared_ptr<Personnel>>> vectTemp (personnels_.cbegin(), personnels_.cend() );
 	std::sort(vectTemp.begin(), vectTemp.end(), ComparateurSecondElementPaire<std::string, std::shared_ptr<Personnel>>());
 	return vectTemp;
 }

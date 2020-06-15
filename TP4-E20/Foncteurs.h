@@ -1,4 +1,11 @@
-//TODO Ent�te du fichier
+/* ////////////////////////////////////////////////////////////////////////////
+/	TP4 : fichier foncteurs.h                                                 /
+/	travail fait par Bryan Junior Ngatshou                     : 1956611      /
+/	                 Alexandra Johanne Bifona Africa		   : 1955711      /
+/                                                                             /
+/	Date de remise: 14 juin 2020 à 23h55                                      /
+/   Description   : Implementation de la foncteurs.h                          /
+*//////////////////////////////////////////////////////////////////////////////
 
 #ifndef FONCTEURS_H
 #define FONCTEURS_H
@@ -9,7 +16,7 @@
 #include "Hopital.h"
 #include "utils.h"
 #include "GestionnairePatients.h"
-//#include "Personnel.h"
+
 
 
 // Foncteur (classe generique) predicat binaire comparant les seconds elements de paires pour determiner si elles sont en ordre.
@@ -22,7 +29,7 @@ public:
 
 	bool operator() (const std::pair<T1, T2>& pair1, const  std::pair<T1, T2>& pair2)
 	{
-		return(pair1.second < pair2.second);
+		return(*pair1.second < *pair2.second);
 	}
 };
 
@@ -52,7 +59,6 @@ private:
 
 class AccumulateurPeriodePersonnel {
 public:
-	//AccumulateurPeriodePersonnel(double somme) : somme_(somme) {}
 	double operator()(double somme, std::pair<const std::string, std::shared_ptr<Personnel>> pair) {
 		tm temps1 = getDateCourante();
 		tm temps2 = pair.second->getDateAdhesion();
@@ -60,8 +66,7 @@ public:
 		return somme + static_cast<double>(static_cast<double>(getDateCourante().tm_year) - static_cast<double>(pair.second->getDateAdhesion().tm_year));
 		
 	}
-//private:
-//	double somme_;
+
 };
 
 //Foncteur (classe generique) predicat unaire servant a comparer un objet de type Patient a n'importe quel autre objet.
@@ -71,14 +76,10 @@ template <typename T>
 class  ComparateurTypePatient
 {
 public:
-	//ComparateurTypePatient(T objet) : objet_(objet) {}
 	bool operator()(std::shared_ptr<Patient> patient)
 	{
 		return (dynamic_cast<T*>(patient.get()));
 	}
-private:
-	T objet_;
-
 };
 
 // Foncteur EstDansIntervalleDatesConsultation predicat unaire servant a determiner si une consultation est realisee entre deux dates.

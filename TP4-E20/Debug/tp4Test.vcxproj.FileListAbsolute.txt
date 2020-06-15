@@ -1,0 +1,2 @@
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\Debug\tp4Test.exe
+C:\Users\bryan\Desktop\GitKraken\tps_summer\TP4-E20\Debug\tp4Test.pdb

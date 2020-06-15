@@ -301,19 +301,19 @@ namespace Tests
             && (hopital.getConsultations().size() == nbConsultations + 2));
         afficherResultatTest(4, "Hopital::ajouterConsultation", tests.back());
 
-        //// Test 5
-        //hopital.chargerBaseDeDonnees("personnels.txt", "patients.txt", "consultations.txt");
-        //double periodeMoyennePersonnel = hopital.getAncienneteMoyenneDesPersonnels();
+        // Test 5
+        hopital.chargerBaseDeDonnees("personnels.txt", "patients.txt", "consultations.txt");
+        double periodeMoyennePersonnel = hopital.getAncienneteMoyenneDesPersonnels();
 
-        //double periodeMoyenneAttendue = 0;
-        //for (const auto& personnel : hopital.getGestionnairePersonnels().getPersonnels()) {
-        //    periodeMoyenneAttendue += static_cast<double>(static_cast<double>(getDateCourante().tm_year) - static_cast<double>(personnel.second->getDateAdhesion().tm_year));
-        //}
+        double periodeMoyenneAttendue = 0;
+        for (const auto& personnel : hopital.getGestionnairePersonnels().getPersonnels()) {
+            periodeMoyenneAttendue += static_cast<double>(static_cast<double>(getDateCourante().tm_year) - static_cast<double>(personnel.second->getDateAdhesion().tm_year));
+        }
 
-        //periodeMoyenneAttendue /= static_cast<double>(hopital.getGestionnairePersonnels().getPersonnels().size());
+        periodeMoyenneAttendue /= static_cast<double>(hopital.getGestionnairePersonnels().getPersonnels().size());
 
-        //tests.push_back(periodeMoyenneAttendue == periodeMoyennePersonnel);
-        //afficherResultatTest(5, "Hopital::getAncienneteMoyenneDesPersonnels", tests.back());
+        tests.push_back(periodeMoyenneAttendue == periodeMoyennePersonnel);
+        afficherResultatTest(5, "Hopital::getAncienneteMoyenneDesPersonnels", tests.back());
 
         // Test 6
         hopital.chargerBaseDeDonnees("personnels.txt", "patients.txt", "consultations.txt");
