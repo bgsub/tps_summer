@@ -589,26 +589,48 @@ void MainGui::setUI() {
         */
 
         try {
-            if(dateAdhesionEditeur->text().toStdString().size()==10)
-                // throw(DateInvalide("La date d'adhesion  doit respecter le format AAAA-MM-JJ et doit etre une date valide.Exemple: \n1990-01-01"));
-            //string dateAdhesion = dateAdhesionEditeur->text().toStdString();
-            //string laDate=utils::convertirStringDate((dateAdhesion));
-            //for
-            //if (dateAdhesion.)
-            //if(dateAdhesionEditeur->text().toInt().)
-               std :: string dateq= dateAdhesionEditeur->text().toStdString();
-               tm dateTemp =  utils::convertirTmString(dateq);
-                {
+                if(dateAdhesionEditeur->text().toStdString().size() != 10){
+                    throw (DateInvalide("La date d'adhésion doit respecter le format AAAA-MM-JJ et doit être une date valide. Exemple: \n1990-01-01"));
+                }
+
+                for(size_t i = 5; i < dateAdhesionEditeur->text().toStdString().size() - 2 ; i++){
+                    if (dateAdhesionEditeur->text().toStdString()[5] > '1')
+                        throw (DateInvalide("La date d'adhésion doit respecter le format AAAA-MM-JJ et doit être une date valide. Exemple: \n 1990-01-01"));
+
+                if(dateAdhesionEditeur->text().toStdString()[5] == '1'){
+                     if (dateAdhesionEditeur->text().toStdString()[6] > '2')
+                          throw(DateInvalide("La date d'adhésion doit respecter le format AAAA-MM-JJ et doit être une date valide. Exemple: \n 1990-01-01"));   }
+
+                if (dateAdhesionEditeur->text().toStdString()[8] > '3')
+                    throw (DateInvalide("La date d'adhésion doit respecter le format AAAA-MM-JJ et doit être une date valide. Exemple: \n 1990-01-01"));
+                if(dateAdhesionEditeur->text().toStdString()[8] == '3'){
+                   if (dateAdhesionEditeur->text().toStdString()[9] > '1')
+                       throw(DateInvalide("La date d'adhésion doit respecter le format AAAA-MM-JJ et doit être une date valide. Exemple: \n 1990-01-01"));
+                }
+
+                if (nomEditeur->text().isEmpty())
+
+                    throw(ErreurChamp("Veuillez remplir tous les champs"));
+
+                if (idEditeur->text().isEmpty())
+
+                    throw(ErreurChamp("Veuillez remplir tous les champs"));
 
                 }
-            else if(nomEditeur->text().isEmpty()|| idEditeur->text().isEmpty() || dateAdhesionEditeur->text().isEmpty())
-                throw (ErreurChamp("okay"));
-        } catch (DateInvalide& date) {
-            QMessageBox::critical(NULL,"erreur",date.what());
-        }catch(ErreurChamp& champ)
-        {
-            QMessageBox::critical(NULL,"erreur",champ.what());
-        }
+
+            } catch (DateInvalide& erreur) {
+
+                QMessageBox::critical(NULL, "Erreur date: ", erreur.what());
+
+            }
+
+            catch(ErreurChamp& e){
+
+                QMessageBox::critical(NULL, "Erreur champs:", e.what());
+
+            }
+
+
 
         // On crée le bon type du personnel selon le cas
         string nom = nomEditeur->text().toStdString();
@@ -697,14 +719,16 @@ void MainGui::setUI() {
             string etablissement = etablissementEditeur->text().toStdString();
             estNonVide = estNonVide && (etablissement != "" && matricule != "" && dateDeNaissance != "");
         }
-
-        if (!estNonVide) {
-            throw ErreurChamp("toto");
-        }
-
         /* TODO 22:
          * Lancer les exceptions appropriées en utilisant les exceptions du fichier Erreurs.h
          * Les messages d'erreur doivent correspondre à ceux des captures d'écran
          * hint : deux exceptions à lancer (la deuxième devrait utiliser la fonction validerDate du namespace utils)
         */
+        if (!estNonVide) {
+            throw ErreurChamp("Veuillez remplir tous les champs");
+         if(!utils::validerDate(dateAdhesion)|| !utils::validerDate(dateDeNaissanceEditeur->text().toStdString()))
+             throw DateInvalide("La date d'adhésion doit respecter le format AAAA-MM-JJ et doit être une date valide. Exemple: \n 1990-01-01");
+        }
+
+
     }
